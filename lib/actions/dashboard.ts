@@ -143,8 +143,10 @@ export async function getDashboardMetrics(period: 'current_month' | 'last_month'
         const pDate = new Date(p.dueDate + 'T12:00:00')
         if (checkDate(pDate)) inadimplencia += p.value
       })
+
+      const totalPrevisto = recebido + aReceber + inadimplencia
       
-      return { recebido, aReceber, inadimplencia }
+      return { recebido, aReceber, inadimplencia, totalPrevisto }
     }
 
     const currentFinancials = processPayments(paidPayments, pendingPayments, overduePayments, isCurrentPeriod)

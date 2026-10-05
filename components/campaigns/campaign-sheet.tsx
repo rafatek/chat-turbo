@@ -337,7 +337,7 @@ export function CampaignSheet({ open, onOpenChange, onSuccess, campaignToEdit }:
                                                 <img src={linkMidia} alt="Preview" className="w-full h-auto rounded-md object-cover" />
                                             ) : (
                                                 <div className="flex items-center justify-center bg-black/40 h-24 rounded-md">
-                                                    <Video className="h-8 w-8 text-blue-400" />
+                                                    <Video className="h-8 w-8 text-[#8E3AAA]" />
                                                 </div>
                                             )}
                                             <div className="text-[10px] text-center mt-1 text-muted-foreground truncate">
@@ -364,14 +364,14 @@ export function CampaignSheet({ open, onOpenChange, onSuccess, campaignToEdit }:
                                     checked={form.watch("ia_generation")}
                                     onCheckedChange={(checked) => form.setValue("ia_generation", checked)}
                                     disabled={!!linkMidia}
-                                    className="data-[state=checked]:bg-blue-600"
+                                    className="data-[state=checked]:bg-[#8738B5]"
                                 />
                             </div>
 
                             <div className="space-y-2">
                                 <Label>Público Alvo (Leads)</Label>
                                 <div className="flex items-center gap-4 p-4 border border-white/10 rounded-lg bg-white/5 transition-colors hover:bg-white/10">
-                                    <div className="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    <div className="h-10 w-10 rounded-full bg-[#8E3AAA]/20 flex items-center justify-center text-[#8E3AAA]">
                                         <Users className="h-5 w-5" />
                                     </div>
                                     <div className="flex-1">

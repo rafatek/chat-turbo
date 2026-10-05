@@ -165,20 +165,20 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <Label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-1">ID de Acesso</Label>
                   <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ADMIN@LEGADO.DIGITAL" required
-                    className="border-0 border-b rounded-none bg-transparent focus:ring-0 px-0 text-white border-white/10 focus:border-[#00A3FF] uppercase" />
+                    className="border-0 border-b rounded-none bg-transparent focus:ring-0 px-0 text-white border-white/10 focus:border-[#8E3AAA] uppercase" />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <Label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold ml-1">Chave Mestra</Label>
-                    <Link href="/forgot-password" title="Recuperar" className="text-[9px] uppercase tracking-widest text-[#00A3FF] hover:text-white transition-colors">Esqueceu?</Link>
+                    <Link href="/forgot-password" title="Recuperar" className="text-[9px] uppercase tracking-widest text-[#8E3AAA] hover:text-white transition-colors">Esqueceu?</Link>
                   </div>
                   <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required
-                    className="border-0 border-b rounded-none bg-transparent focus:ring-0 px-0 text-white border-white/10 focus:border-[#00A3FF]" />
+                    className="border-0 border-b rounded-none bg-transparent focus:ring-0 px-0 text-white border-white/10 focus:border-[#8E3AAA]" />
                 </div>
 
                 <Button type="submit" className={`w-full h-12 text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-300 
-                  ${isError ? "bg-red-600 shadow-[0_4px_20px_rgba(220,38,38,0.3)]" : "bg-[#00A3FF] hover:bg-[#0082CC] shadow-[0_4px_30px_rgba(0,163,255,0.4)]"}`}>
+                  ${isError ? "bg-red-600 shadow-[0_4px_20px_rgba(220,38,38,0.3)]" : "bg-[#8E3AAA] hover:bg-[#8738B5] shadow-[0_4px_30px_rgba(0,163,255,0.4)]"}`}>
                   {isError ? "ACESSO NEGADO" : "CONECTAR AO SISTEMA"}
                 </Button>
               </form>
@@ -194,7 +194,7 @@ export default function LoginPage() {
       </div>
 
       <div className="fixed inset-0 pointer-events-none z-[5] overflow-hidden">
-        <div className={`absolute inset-x-0 h-[1px] opacity-10 animate-scan ${isError ? "bg-red-500" : "bg-[#00A3FF]"}`} />
+        <div className={`absolute inset-x-0 h-[1px] opacity-10 animate-scan ${isError ? "bg-red-500" : "bg-[#8E3AAA]"}`} />
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `

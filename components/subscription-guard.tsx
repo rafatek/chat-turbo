@@ -80,7 +80,7 @@ export function SubscriptionGuard({ children }: { children: React.ReactNode }) {
                         if (updateError) console.error("Error stamping server_id:", updateError)
                     } else if (userServerId && currentServerId && userServerId !== currentServerId) {
                         // LGICA DE REDIRECT (TRAVA): Servidor errado
-                        const targetUrl = `https://${userServerId}.prospektia.com/dashboard`
+                        const targetUrl = `https://${userServerId}.assessoriaturbodigital.com.br/dashboard`
                         const isLocal = window.location.hostname === 'localhost' || window.location.hostname.includes('192.168.')
 
                         if (isLocal) {

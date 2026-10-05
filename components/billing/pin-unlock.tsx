@@ -54,12 +54,12 @@ export function PinUnlock() {
         {/* Background Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur opacity-20 pointer-events-none" />
 
-        <Card className="relative border-blue-500/20 shadow-2xl overflow-hidden backdrop-blur-sm bg-background/95">
+        <Card className="relative border-[#8E3AAA]/20 shadow-2xl overflow-hidden backdrop-blur-sm bg-background/95">
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500" />
 
           <CardHeader className="text-center pb-2">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/10">
-              <Lock className="h-8 w-8 text-blue-500" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#8E3AAA]/10">
+              <Lock className="h-8 w-8 text-[#8E3AAA]" />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight">Área Protegida</CardTitle>
             <CardDescription className="text-base mt-2">
@@ -83,7 +83,7 @@ export function PinUnlock() {
               <Button
                 type="submit"
                 disabled={isLoading || pin.length < 4}
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg"
+                className="w-full h-12 bg-[#8738B5] hover:bg-blue-700 text-white font-medium text-lg"
               >
                 {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Desbloquear Faturas"}
               </Button>

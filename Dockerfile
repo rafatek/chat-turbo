@@ -1,6 +1,6 @@
 
 # Stage 1: Install dependencies
-FROM node:18-alpine AS deps
+FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -10,10 +10,27 @@ COPY package.json package-lock.json* ./
 RUN npm ci
 
 # Stage 2: Build the application
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Injeta variáveis públicas necessárias no momento do build
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG NEXT_PUBLIC_APP_NAME
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_UAZAPI_URL
+ARG NEXT_PUBLIC_SERVER_ID
+ARG NEXT_PUBLIC_SUPORTE_URL
+
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV NEXT_PUBLIC_APP_NAME=$NEXT_PUBLIC_APP_NAME
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_UAZAPI_URL=$NEXT_PUBLIC_UAZAPI_URL
+ENV NEXT_PUBLIC_SERVER_ID=$NEXT_PUBLIC_SERVER_ID
+ENV NEXT_PUBLIC_SUPORTE_URL=$NEXT_PUBLIC_SUPORTE_URL
 
 # Disable telemetry during build
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -22,7 +39,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # Stage 3: Production server
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -45,5 +62,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]

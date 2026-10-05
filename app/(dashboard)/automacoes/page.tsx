@@ -120,7 +120,7 @@ export default function AutomacoesPage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
-                        <Webhook className="h-8 w-8 text-blue-400" />
+                        <Webhook className="h-8 w-8 text-[#8E3AAA]" />
                         Automações e Captura
                     </h1>
                     <p className="mt-1 text-muted-foreground">Converta leads de outras plataformas em mensagens de WhatsApp via Webhook</p>
@@ -180,7 +180,7 @@ export default function AutomacoesPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-8 w-8 text-blue-400 hover:text-blue-300 hover:bg-blue-400/10"
+                                                    className="h-8 w-8 text-[#8E3AAA] hover:text-blue-300 hover:bg-blue-400/10"
                                                     onClick={() => router.push(`/automacoes/${webhook.id}`)}
                                                     title="Configurar Webhook"
                                                 >

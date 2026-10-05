@@ -442,7 +442,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
             onClick={() => setViewMode('dashboard')}
             className={cn(
               "flex items-center px-4 py-2 rounded-md text-sm font-medium transition-all",
-              viewMode === 'dashboard' ? "bg-blue-600 text-white shadow-sm" : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+              viewMode === 'dashboard' ? "bg-[#8738B5] text-white shadow-sm" : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
             )}
           >
             <LayoutDashboard className="w-4 h-4 mr-2" />
@@ -460,14 +460,14 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
               </div>
               <input 
                 type="text" 
-                className="bg-black border border-zinc-800 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
+                className="bg-black border border-zinc-800 text-white text-sm rounded-full focus:ring-[#8E3AAA] focus:border-[#8E3AAA] block w-full pl-10 p-2.5" 
                 placeholder="Pesquisar por nome ou email..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            <Button onClick={() => setIsCreateDialogOpen(true)} className="w-full sm:w-auto rounded-full bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white font-bold transition-all duration-300 shadow-[0_0_15px_rgba(0,163,255,0.4)] hover:shadow-[0_0_25px_rgba(0,163,255,0.6)]">
+            <Button onClick={() => setIsCreateDialogOpen(true)} className="w-full sm:w-auto rounded-full bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white font-bold transition-all duration-300 shadow-[0_0_15px_rgba(0,163,255,0.4)] hover:shadow-[0_0_25px_rgba(0,163,255,0.6)]">
               <Plus className="mr-2 h-4 w-4" /> Novo Usuário
             </Button>
           </div>
@@ -501,11 +501,11 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
               <TableRow key={profile.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                 <TableCell className="py-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00A3FF]/10 border border-[#00A3FF]/20">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#8E3AAA]/10 border border-[#8E3AAA]/20">
                       {profile.is_admin ? (
                         <ShieldAlert className="h-5 w-5 text-red-500" />
                       ) : (
-                        <User className="h-5 w-5 text-[#00A3FF]" />
+                        <User className="h-5 w-5 text-[#8E3AAA]" />
                       )}
                     </div>
                     <div>
@@ -520,7 +520,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
                 </TableCell>
                 <TableCell>
                   {profile.server_id ? (
-                    <Badge variant="outline" className="font-mono text-xs border-[#00A3FF]/30 text-[#00A3FF] bg-[#00A3FF]/5">
+                    <Badge variant="outline" className="font-mono text-xs border-[#8E3AAA]/30 text-[#8E3AAA] bg-[#8E3AAA]/5">
                       {profile.server_id}
                     </Badge>
                   ) : (
@@ -610,7 +610,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
 
                       {/* Billing Action */}
                       <DropdownMenuItem 
-                        className="cursor-pointer text-blue-400 focus:bg-blue-500/10 focus:text-blue-400"
+                        className="cursor-pointer text-[#8E3AAA] focus:bg-[#8E3AAA]/10 focus:text-[#8E3AAA]"
                         onClick={() => handleOpenBilling(profile)}
                       >
                         <QrCode className="mr-2 h-4 w-4" />
@@ -634,7 +634,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
 
                       {/* Asaas Link Action */}
                       <DropdownMenuItem 
-                        className="cursor-pointer text-blue-400 focus:bg-blue-500/10 focus:text-blue-400"
+                        className="cursor-pointer text-[#8E3AAA] focus:bg-[#8E3AAA]/10 focus:text-[#8E3AAA]"
                         onClick={() => handleLinkAsaas(profile.id)}
                         disabled={isPending}
                       >
@@ -656,7 +656,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
 
                       {/* Admin Role Actions */}
                       <DropdownMenuItem 
-                        className="cursor-pointer text-[#00A3FF] focus:bg-[#00A3FF]/10 focus:text-[#00A3FF]"
+                        className="cursor-pointer text-[#8E3AAA] focus:bg-[#8E3AAA]/10 focus:text-[#8E3AAA]"
                         onClick={() => handleToggleAdmin(profile.id, !!profile.is_admin)}
                         disabled={isPending}
                       >
@@ -730,7 +730,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
           </DialogHeader>
           {isFetchingSub ? (
             <div className="flex flex-col items-center justify-center p-8 space-y-4">
-              <Loader2 className="h-8 w-8 animate-spin text-[#00A3FF]" />
+              <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
               <p className="text-sm text-gray-400">Buscando assinatura no Asaas...</p>
             </div>
           ) : (
@@ -841,7 +841,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditingUser(null)} disabled={isPending || isFetchingSub}>Cancelar</Button>
             <Button 
-              className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white" 
+              className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white" 
               onClick={handleUpdateProfile}
               disabled={isPending || isFetchingSub || (!newEmail && !newCpf)}
             >
@@ -993,7 +993,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
           <DialogFooter>
             <Button variant="ghost" onClick={() => setIsCreateDialogOpen(false)} disabled={isPending}>Cancelar</Button>
             <Button 
-              className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white" 
+              className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white" 
               onClick={handleCreateUser}
               disabled={isPending || !createData.email || !createData.fullName}
             >
@@ -1067,7 +1067,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
           <div className="flex flex-col items-center justify-center space-y-6 py-4">
             {connectLoading && !connectQr && !connectPairingCode ? (
               <div className="flex flex-col items-center justify-center p-8">
-                <Loader2 className="h-8 w-8 animate-spin text-[#00A3FF]" />
+                <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
                 <p className="mt-4 text-sm text-gray-400">Carregando dados da instância...</p>
               </div>
             ) : connectStatus === 'connected' ? (
@@ -1085,7 +1085,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
                 {/* QR Code Section */}
                 <div className="w-full flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-xl p-4">
                   <h3 className="text-sm font-medium mb-4 flex items-center gap-2 text-gray-300">
-                    <QrCode className="h-4 w-4 text-[#00A3FF]" />
+                    <QrCode className="h-4 w-4 text-[#8E3AAA]" />
                     Ler QR Code
                   </h3>
                   {connectQr ? (
@@ -1108,7 +1108,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
                 {/* Pairing Code Section */}
                 <div className="w-full space-y-4 bg-white/5 border border-white/10 rounded-xl p-4">
                   <h3 className="text-sm font-medium flex items-center gap-2 text-gray-300">
-                    <Smartphone className="h-4 w-4 text-[#00A3FF]" />
+                    <Smartphone className="h-4 w-4 text-[#8E3AAA]" />
                     Conectar com Número
                   </h3>
                   <div className="flex gap-2">
@@ -1121,7 +1121,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
                     <Button 
                       onClick={handleGeneratePairingCode}
                       disabled={connectLoading || !connectPhone}
-                      className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white whitespace-nowrap"
+                      className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white whitespace-nowrap"
                     >
                       {connectLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Gerar Código"}
                     </Button>

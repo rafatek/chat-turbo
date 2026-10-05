@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { getDashboardMetrics } from "@/lib/actions/dashboard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2, TrendingUp, TrendingDown, Users, UserPlus, UserMinus, DollarSign, AlertCircle, Smartphone, BrainCircuit, Clock } from "lucide-react"
+import { Loader2, TrendingUp, TrendingDown, Users, UserPlus, UserMinus, DollarSign, AlertCircle, Smartphone, BrainCircuit, Clock, Calculator } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
 export function AdminDashboard() {
@@ -29,7 +29,7 @@ export function AdminDashboard() {
   if (loading && !data) {
     return (
       <div className="flex h-64 w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
       </div>
     )
   }
@@ -39,6 +39,9 @@ export function AdminDashboard() {
   const fCurrent = data.financials.current
   const fPrev = data.financials.prev
   const c = data.clients
+
+  const totalPrevistoCurrent = fCurrent.totalPrevisto ?? (fCurrent.recebido + fCurrent.aReceber + fCurrent.inadimplencia)
+  const totalPrevistoPrev = fPrev.totalPrevisto ?? (fPrev.recebido + fPrev.aReceber + fPrev.inadimplencia)
 
   const formatCurrency = (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
 
@@ -90,7 +93,20 @@ export function AdminDashboard() {
       </div>
 
       {/* FINANCE CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="bg-black/40 border-sky-500/30 backdrop-blur-md">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-sky-400">Total Previsto</CardTitle>
+            <Calculator className="h-4 w-4 text-sky-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{formatCurrency(totalPrevistoCurrent)}</div>
+            <div className="flex items-center mt-1">
+              <TrendIndicator current={totalPrevistoCurrent} prev={totalPrevistoPrev} isCurrency={true} />
+            </div>
+          </CardContent>
+        </Card>
+
         <Card className="bg-black/40 border-emerald-500/30 backdrop-blur-md">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-emerald-400">Total Recebido</CardTitle>
@@ -104,10 +120,10 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-black/40 border-blue-500/30 backdrop-blur-md">
+        <Card className="bg-black/40 border-[#8E3AAA]/30 backdrop-blur-md">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-blue-400">A Receber (Pendente)</CardTitle>
-            <Clock className="h-4 w-4 text-blue-400" />
+            <CardTitle className="text-sm font-medium text-[#8E3AAA]">A Receber (Pendente)</CardTitle>
+            <Clock className="h-4 w-4 text-[#8E3AAA]" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">{formatCurrency(fCurrent.aReceber)}</div>
@@ -163,12 +179,12 @@ export function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Conexões WPP</p>
-                <h3 className="text-2xl font-bold text-blue-400 mt-1">{c.wppConnected} <span className="text-sm text-gray-500">/ {c.total}</span></h3>
+                <h3 className="text-2xl font-bold text-[#8E3AAA] mt-1">{c.wppConnected} <span className="text-sm text-gray-500">/ {c.total}</span></h3>
               </div>
-              <div className="p-3 bg-blue-500/10 rounded-full"><Smartphone className="w-5 h-5 text-blue-400" /></div>
+              <div className="p-3 bg-[#8E3AAA]/10 rounded-full"><Smartphone className="w-5 h-5 text-[#8E3AAA]" /></div>
             </div>
             <div className="mt-2 w-full bg-gray-800 rounded-full h-1.5">
-              <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${c.total > 0 ? (c.wppConnected / c.total) * 100 : 0}%` }}></div>
+              <div className="bg-[#8E3AAA] h-1.5 rounded-full" style={{ width: `${c.total > 0 ? (c.wppConnected / c.total) * 100 : 0}%` }}></div>
             </div>
           </CardContent>
         </Card>

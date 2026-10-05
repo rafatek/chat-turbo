@@ -67,7 +67,7 @@ export function KanbanColumn({ column, onDelete, onRename, availableLabels = [],
                                     onBlur={handleSaveTitle}
                                     onKeyDown={handleKeyDown}
                                     disabled={isSaving}
-                                    className="bg-background text-sm font-semibold text-foreground px-2 py-1 rounded w-full outline-none border border-border focus:border-[#00A3FF]"
+                                    className="bg-background text-sm font-semibold text-foreground px-2 py-1 rounded w-full outline-none border border-border focus:border-[#8E3AAA]"
                                 />
                                 {isSaving && <Loader2 className="h-3 w-3 animate-spin text-gray-400" />}
                             </div>

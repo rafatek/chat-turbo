@@ -3,6 +3,15 @@ import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
   try {
+    // Validação do token de segurança do webhook do Asaas
+    const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;
+    const receivedToken = req.headers.get('asaas-access-token');
+
+    if (webhookSecret && receivedToken !== webhookSecret) {
+      console.warn('[Asaas Webhook] Acesso negado: token inválido ou ausente.');
+      return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const payload = await req.json();
     const event = payload.event; // ex: PAYMENT_RECEIVED, PAYMENT_OVERDUE
     const payment = payload.payment; // Objeto de pagamento do Asaas

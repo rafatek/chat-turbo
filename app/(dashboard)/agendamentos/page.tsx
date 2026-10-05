@@ -122,7 +122,7 @@ function getInitials(name: string) {
 }
 
 const AVATAR_COLORS = [
-  "bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500",
+  "bg-[#8E3AAA]", "bg-emerald-500", "bg-purple-500", "bg-amber-500",
   "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-teal-500"
 ]
 
@@ -451,7 +451,7 @@ export default function AgendamentosPage() {
           )
         }
         return (
-          <Badge variant="outline" className="bg-blue-500/10 text-[#00A3FF] border-blue-500/30 gap-1 font-medium">
+          <Badge variant="outline" className="bg-[#8E3AAA]/10 text-[#8E3AAA] border-[#8E3AAA]/30 gap-1 font-medium">
             <Clock className="h-3 w-3" />
             Pendente
           </Badge>
@@ -489,7 +489,7 @@ export default function AgendamentosPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground bg-clip-text text-transparent flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00A3FF]/10 text-[#00A3FF] border border-[#00A3FF]/20 shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8E3AAA]/10 text-[#8E3AAA] border border-[#8E3AAA]/20 shadow-sm">
               <CalendarClock className="h-5 w-5" />
             </div>
             Agendamentos de Mensagens
@@ -512,7 +512,7 @@ export default function AgendamentosPage() {
           </Button>
           <Button
             onClick={handleOpenCreate}
-            className="h-9 bg-[#00A3FF] hover:bg-[#0082CC] text-white shadow-md shadow-[#00A3FF]/20 gap-2 text-xs font-semibold"
+            className="h-9 bg-[#8E3AAA] hover:bg-[#8738B5] text-white shadow-md shadow-[#8E3AAA]/20 gap-2 text-xs font-semibold"
           >
             <Plus className="h-4 w-4" />
             Novo Agendamento
@@ -538,9 +538,9 @@ export default function AgendamentosPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-medium text-muted-foreground">Pendentes</p>
-              <p className="text-2xl font-bold text-[#00A3FF] mt-0.5">{stats.pending}</p>
+              <p className="text-2xl font-bold text-[#8E3AAA] mt-0.5">{stats.pending}</p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00A3FF]/10 text-[#00A3FF]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8E3AAA]/10 text-[#8E3AAA]">
               <Clock className="h-5 w-5" />
             </div>
           </CardContent>
@@ -602,7 +602,7 @@ export default function AgendamentosPage() {
                 onClick={() => setStatusFilter("pending")}
                 className={cn(
                   "h-8 text-xs font-medium",
-                  statusFilter === "pending" ? "bg-[#00A3FF] text-white" : ""
+                  statusFilter === "pending" ? "bg-[#8E3AAA] text-white" : ""
                 )}
               >
                 Pendentes ({stats.pending})
@@ -635,7 +635,7 @@ export default function AgendamentosPage() {
       <Card className="bg-card border-border shadow-sm overflow-hidden">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-[#00A3FF]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
             <p className="text-xs text-muted-foreground">Carregando agendamentos...</p>
           </div>
         ) : filteredAgendamentos.length === 0 ? (
@@ -650,7 +650,7 @@ export default function AgendamentosPage() {
                 : "Você ainda não possui mensagens programadas. Crie um agendamento para começar."}
             </p>
             {!searchQuery && statusFilter === "all" && (
-              <Button onClick={handleOpenCreate} size="sm" className="bg-[#00A3FF] hover:bg-[#0082CC] text-white gap-2 text-xs">
+              <Button onClick={handleOpenCreate} size="sm" className="bg-[#8E3AAA] hover:bg-[#8738B5] text-white gap-2 text-xs">
                 <Plus className="h-3.5 w-3.5" />
                 Criar Primeiro Agendamento
               </Button>
@@ -729,7 +729,7 @@ export default function AgendamentosPage() {
                               onClick={() => router.push(`/atendimento?phone=${item.contact_phone}`)}
                               className="text-xs cursor-pointer gap-2"
                             >
-                              <MessageSquare className="h-3.5 w-3.5 text-[#00A3FF]" />
+                              <MessageSquare className="h-3.5 w-3.5 text-[#8E3AAA]" />
                               Abrir no Atendimento
                             </DropdownMenuItem>
 
@@ -782,7 +782,7 @@ export default function AgendamentosPage() {
         <DialogContent className="sm:max-w-[500px] bg-card border-border text-foreground shadow-2xl">
           <DialogHeader>
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#00A3FF]/10 text-[#00A3FF]">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8E3AAA]/10 text-[#8E3AAA]">
                 <CalendarClock className="h-5 w-5" />
               </div>
               <div>
@@ -802,7 +802,7 @@ export default function AgendamentosPage() {
                 <select
                   value={formLeadId || ""}
                   onChange={(e) => handleSelectLead(e.target.value)}
-                  className="w-full h-9 rounded-md border border-input bg-background px-3 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-[#00A3FF]"
+                  className="w-full h-9 rounded-md border border-input bg-background px-3 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-[#8E3AAA]"
                 >
                   <option value="">-- Escolha um contato ou preencha abaixo --</option>
                   {availableLeads.map((l) => (
@@ -864,7 +864,7 @@ export default function AgendamentosPage() {
             <Button variant="ghost" size="sm" onClick={() => setIsCreateOpen(false)} disabled={isSubmitting} className="text-xs">
               Cancelar
             </Button>
-            <Button onClick={handleSaveCreate} disabled={isSubmitting} size="sm" className="bg-[#00A3FF] hover:bg-[#0082CC] text-white text-xs gap-1.5">
+            <Button onClick={handleSaveCreate} disabled={isSubmitting} size="sm" className="bg-[#8E3AAA] hover:bg-[#8738B5] text-white text-xs gap-1.5">
               {isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CalendarClock className="h-3.5 w-3.5" />}
               {isSubmitting ? "Agendando..." : "Confirmar Agendamento"}
             </Button>

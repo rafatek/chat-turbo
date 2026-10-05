@@ -33,28 +33,28 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
                             initial={{ height: 0 }}
                             animate={{ height: 40 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
-                            className="w-0.5 bg-gradient-to-b from-[#00A3FF] to-transparent"
+                            className="w-0.5 bg-gradient-to-b from-[#8E3AAA] to-transparent"
                         />
                         <motion.div
                             animate={{ y: [0, -5, 0] }}
                             transition={{ repeat: Infinity, duration: 1.5 }}
                         >
-                            <div className="w-3 h-3 rounded-full bg-[#00A3FF] shadow-[0_0_15px_rgba(0,163,255,1)]" />
+                            <div className="w-3 h-3 rounded-full bg-[#8E3AAA] shadow-[0_0_15px_rgba(0,163,255,1)]" />
                         </motion.div>
                     </div>
 
                     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0C]/90 shadow-2xl backdrop-blur-xl">
                         {/* Animated Border Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#00A3FF]/20 via-blue-500/10 to-[#00A3FF]/20 animate-gradient-xy opacity-50" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#8E3AAA]/20 via-blue-500/10 to-[#8E3AAA]/20 animate-gradient-xy opacity-50" />
 
                         <div className="relative p-6 space-y-4">
                             <div className="flex items-start justify-between">
                                 <div className="flex items-center gap-2">
-                                    <div className="p-2 rounded-lg bg-[#00A3FF]/10 border border-[#00A3FF]/20">
-                                        <Sparkles className="w-5 h-5 text-[#00A3FF]" />
+                                    <div className="p-2 rounded-lg bg-[#8E3AAA]/10 border border-[#8E3AAA]/20">
+                                        <Sparkles className="w-5 h-5 text-[#8E3AAA]" />
                                     </div>
                                     <h3 className="font-bold text-lg text-white tracking-tight">
-                                        Bem-vindo ao <span className="text-[#00A3FF]">Legado</span>
+                                        Bem-vindo ao <span className="text-[#8E3AAA]">Legado</span>
                                     </h3>
                                 </div>
                                 <button
@@ -77,7 +77,7 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
                             <div className="pt-2">
                                 <Button
                                     onClick={onComplete}
-                                    className="w-full bg-[#00A3FF] hover:bg-[#0082CC] text-white border-0 shadow-lg shadow-blue-900/20 font-bold uppercase text-[10px] tracking-[0.2em]"
+                                    className="w-full bg-[#8E3AAA] hover:bg-[#8738B5] text-white border-0 shadow-lg shadow-blue-900/20 font-bold uppercase text-[10px] tracking-[0.2em]"
                                 >
                                     Começar Operação
                                 </Button>

@@ -188,7 +188,7 @@ export default function CampaignsPage() {
                                                         campaign.status === 'active'
                                                             ? "bg-emerald-500/10 text-emerald-400"
                                                             : campaign.status === 'completed'
-                                                                ? "bg-blue-500/10 text-blue-400"
+                                                                ? "bg-[#8E3AAA]/10 text-[#8E3AAA]"
                                                                 : "bg-yellow-500/10 text-yellow-500"
                                                     )}
                                                 >
@@ -215,7 +215,7 @@ export default function CampaignsPage() {
                                         <TableCell className="text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 {campaign.status === 'completed' ? (
-                                                    <span className="flex items-center text-blue-400 text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-blue-500/5 rounded-md border border-blue-500/10 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
+                                                    <span className="flex items-center text-[#8E3AAA] text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-[#8E3AAA]/5 rounded-md border border-[#8E3AAA]/10 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
                                                         <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
                                                         Missão Concluída
                                                     </span>
@@ -257,7 +257,7 @@ export default function CampaignsPage() {
                                                                 onClick={() => handleEdit(campaign)}
                                                                 className="focus:bg-accent cursor-pointer"
                                                             >
-                                                                <Edit className="mr-2 h-4 w-4 text-blue-400" />
+                                                                <Edit className="mr-2 h-4 w-4 text-[#8E3AAA]" />
                                                                 Editar
                                                             </DropdownMenuItem>
                                                         )}

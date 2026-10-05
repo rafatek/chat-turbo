@@ -95,7 +95,7 @@ function getInitials(name: string) {
 }
 
 const AVATAR_COLORS = [
-  "bg-violet-500", "bg-blue-500", "bg-emerald-500", "bg-orange-500",
+  "bg-violet-500", "bg-[#8E3AAA]", "bg-emerald-500", "bg-orange-500",
   "bg-pink-500", "bg-teal-500", "bg-red-500", "bg-indigo-500",
 ]
 
@@ -128,7 +128,7 @@ const MessageBubble = React.memo(function MessageBubble({ message, onDelete, onE
     >
       <div className={cn(
         "relative rounded-2xl px-4 py-2.5 text-sm shadow-sm",
-        isMe ? "bg-[#00A3FF] text-white rounded-tr-sm" : "bg-card dark:bg-[#1A1A23] text-foreground dark:text-gray-100 border border-border dark:border-white/5 rounded-tl-sm",
+        isMe ? "bg-[#8E3AAA] text-white rounded-tr-sm" : "bg-card dark:bg-[#1A1A23] text-foreground dark:text-gray-100 border border-border dark:border-white/5 rounded-tl-sm",
         isDeleted && "opacity-50 italic"
       )}>
 
@@ -236,7 +236,7 @@ const ConversationItem = React.memo(function ConversationItem({
       onClick={() => onSelect(conv)}
       className={cn(
         "w-full flex items-start gap-3 px-4 py-3.5 text-left transition-colors hover:bg-accent dark:hover:bg-white/[0.03] border-b border-border dark:border-white/[0.03]",
-        isSelected && "bg-[#00A3FF]/5 border-l-2 border-l-[#00A3FF]"
+        isSelected && "bg-[#8E3AAA]/5 border-l-2 border-l-[#8E3AAA]"
       )}
     >
       <div className="relative">
@@ -269,7 +269,7 @@ const ConversationItem = React.memo(function ConversationItem({
         <div className="flex items-center justify-between gap-2">
           <p className="text-xs text-gray-500 truncate">{conv.last_message || "..."}</p>
           {conv.unread_count > 0 && (
-            <span className="flex-shrink-0 min-w-[18px] bg-[#00A3FF] rounded-full text-[9px] font-bold text-white flex items-center justify-center px-1 h-4">
+            <span className="flex-shrink-0 min-w-[18px] bg-[#8E3AAA] rounded-full text-[9px] font-bold text-white flex items-center justify-center px-1 h-4">
               {conv.unread_count}
             </span>
           )}
@@ -403,7 +403,7 @@ const ChatInputBar = React.memo(
     return (
       <div className="p-3 pb-safe border-t border-border dark:border-white/5 bg-card dark:bg-[#0D0D12]">
         {editingMessage && (
-          <div className="mb-2 px-3 py-1.5 bg-[#00A3FF]/10 text-[#00A3FF] text-xs rounded-lg flex items-center justify-between border border-[#00A3FF]/20">
+          <div className="mb-2 px-3 py-1.5 bg-[#8E3AAA]/10 text-[#8E3AAA] text-xs rounded-lg flex items-center justify-between border border-[#8E3AAA]/20">
             <span className="flex items-center gap-2">
               <PenTool className="h-3.5 w-3.5" />
               Editando mensagem...
@@ -428,7 +428,7 @@ const ChatInputBar = React.memo(
             Enviando mensagem como: <strong className="text-gray-300 font-medium">{activeSignature}</strong>
           </div>
         )}
-        <div className="flex items-center gap-2 bg-accent/50 dark:bg-white/5 rounded-xl border border-border dark:border-white/5 px-4 py-2 focus-within:border-[#00A3FF]/40 transition-colors">
+        <div className="flex items-center gap-2 bg-accent/50 dark:bg-white/5 rounded-xl border border-border dark:border-white/5 px-4 py-2 focus-within:border-[#8E3AAA]/40 transition-colors">
           {isRecording ? (
             <div className="flex items-center justify-between w-full h-8">
               <Button
@@ -482,7 +482,7 @@ const ChatInputBar = React.memo(
                     variant="ghost"
                     size="icon"
                     disabled={isSending || isUploading}
-                    className="h-8 w-8 text-gray-400 hover:text-[#00A3FF] hover:bg-[#00A3FF]/10 flex-shrink-0"
+                    className="h-8 w-8 text-gray-400 hover:text-[#8E3AAA] hover:bg-[#8E3AAA]/10 flex-shrink-0"
                     title="Respostas Rápidas"
                   >
                     <Zap className="h-4 w-4" />
@@ -493,14 +493,14 @@ const ChatInputBar = React.memo(
                     <>
                       <div className="flex items-center justify-between p-3 border-b border-white/5">
                         <h4 className="font-semibold text-white text-sm flex items-center gap-2">
-                          <Zap className="h-4 w-4 text-[#00A3FF]" />
+                          <Zap className="h-4 w-4 text-[#8E3AAA]" />
                           Respostas Rápidas
                         </h4>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setIsManageQuickRepliesOpen(true)}
-                          className="h-7 text-xs text-[#00A3FF] hover:text-[#00A3FF] hover:bg-[#00A3FF]/10"
+                          className="h-7 text-xs text-[#8E3AAA] hover:text-[#8E3AAA] hover:bg-[#8E3AAA]/10"
                         >
                           Gerenciar
                         </Button>
@@ -528,7 +528,7 @@ const ChatInputBar = React.memo(
                                 }}
                                 className="text-left p-2.5 rounded-lg hover:bg-white/5 transition-colors group flex flex-col gap-1"
                               >
-                                <span className="font-medium text-foreground dark:text-gray-200 text-sm group-hover:text-[#00A3FF] transition-colors line-clamp-1">{qr.title}</span>
+                                <span className="font-medium text-foreground dark:text-gray-200 text-sm group-hover:text-[#8E3AAA] transition-colors line-clamp-1">{qr.title}</span>
                                 <span className="text-xs text-gray-500 line-clamp-2">{qr.content}</span>
                               </button>
                             ))}
@@ -576,7 +576,7 @@ const ChatInputBar = React.memo(
                           <Button
                             onClick={handleSaveQuickReply}
                             disabled={!newQuickReplyTitle.trim() || !newQuickReplyContent.trim() || isSavingQuickReply}
-                            className="w-full bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white h-8 text-xs"
+                            className="w-full bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white h-8 text-xs"
                           >
                             {isSavingQuickReply ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Salvar'}
                           </Button>
@@ -637,7 +637,7 @@ const ChatInputBar = React.memo(
                   size="icon"
                   onClick={startRecording}
                   disabled={isSending}
-                  className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent dark:hover:bg-white/10 text-muted-foreground dark:text-gray-400 hover:text-[#00A3FF] flex-shrink-0 transition-all"
+                  className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent dark:hover:bg-white/10 text-muted-foreground dark:text-gray-400 hover:text-[#8E3AAA] flex-shrink-0 transition-all"
                   title="Gravar áudio"
                 >
                   <Mic className="h-4 w-4" />
@@ -647,7 +647,7 @@ const ChatInputBar = React.memo(
                   size="icon"
                   onClick={handleTriggerSend}
                   disabled={isSending || !text.trim()}
-                  className="h-8 w-8 rounded-lg bg-[#00A3FF] hover:bg-[#00A3FF]/80 flex-shrink-0 transition-all disabled:opacity-30"
+                  className="h-8 w-8 rounded-lg bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 flex-shrink-0 transition-all disabled:opacity-30"
                 >
                   {isSending ? <Loader2 className="h-4 w-4 animate-spin" /> : (editingMessage ? <Check className="h-4 w-4" /> : <Send className="h-4 w-4" />)}
                 </Button>
@@ -1104,6 +1104,7 @@ export default function AtendimentoPage() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'conversations', filter: `user_id=eq.${userId}` },
         (payload: any) => {
+          console.log("[Realtime] Conversation update received:", payload.eventType, payload.new?.id)
           if (payload.eventType === 'INSERT') {
             const newConv = payload.new as Conversation
             setConversations(prev => {
@@ -1141,7 +1142,9 @@ export default function AtendimentoPage() {
             })
           }
         })
-      .subscribe()
+      .subscribe((status) => {
+        console.log(`[Realtime] convs-realtime subscription status:`, status)
+      })
     return () => { supabase.removeChannel(channel) }
   }, [userId])
 
@@ -1169,15 +1172,29 @@ export default function AtendimentoPage() {
       .on("postgres_changes",
         { event: "INSERT", schema: "public", table: "messages", filter: `conversation_id=eq.${selectedConv.id}` },
         (payload: { new: Message }) => {
-          if (!payload.new.content?.trim() && !payload.new.media_url) return
-          setMessages(prev => prev.find(m => m.id === payload.new.id || (m.whatsapp_message_id && m.whatsapp_message_id === payload.new.whatsapp_message_id)) ? prev : [...prev, payload.new as Message])
+          console.log("[Realtime] New message received:", payload.new)
+          if (!payload.new.content?.trim() && !payload.new.media_url) {
+            console.log("[Realtime] Ignoring empty message")
+            return
+          }
+          setMessages(prev => {
+            const isDuplicate = prev.find(m => m.id === payload.new.id || (m.whatsapp_message_id && m.whatsapp_message_id === payload.new.whatsapp_message_id));
+            if (isDuplicate) {
+                console.log("[Realtime] Ignoring duplicate message:", payload.new.id);
+                return prev;
+            }
+            console.log("[Realtime] Adding message to state");
+            return [...prev, payload.new as Message];
+          })
           
           // Se a conversa está aberta e recebemos uma mensagem do lead, zera o contador no banco
           if (!payload.new.from_me && selectedConv) {
             supabase.from("conversations").update({ unread_count: 0 }).eq("id", selectedConv.id).then()
           }
         })
-      .subscribe()
+      .subscribe((status) => {
+        console.log(`[Realtime] msgs-${selectedConv.id} subscription status:`, status)
+      })
     return () => { supabase.removeChannel(channel) }
   }, [selectedConv?.id, loadMessages])
 
@@ -1950,7 +1967,7 @@ export default function AtendimentoPage() {
               <div className="flex items-center gap-2">
                 <h1 className="text-base font-bold text-foreground dark:text-white">Atendimento</h1>
                 {totalUnread > 0 && (
-                  <Badge className="bg-[#00A3FF] text-white text-[10px] h-5 min-w-5 flex items-center justify-center px-1.5">
+                  <Badge className="bg-[#8E3AAA] text-white text-[10px] h-5 min-w-5 flex items-center justify-center px-1.5">
                     {totalUnread}
                   </Badge>
                 )}
@@ -1959,7 +1976,7 @@ export default function AtendimentoPage() {
               <Button
                 size="icon"
                 onClick={() => setIsNewConvOpen(true)}
-                className="h-8 w-8 rounded-lg bg-[#00A3FF]/10 hover:bg-[#00A3FF]/20 border border-[#00A3FF]/20 text-[#00A3FF]"
+                className="h-8 w-8 rounded-lg bg-[#8E3AAA]/10 hover:bg-[#8E3AAA]/20 border border-[#8E3AAA]/20 text-[#8E3AAA]"
                 title="Nova Conversa"
               >
                 <Plus className="h-4 w-4" />
@@ -1972,17 +1989,17 @@ export default function AtendimentoPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Buscar conversa..."
-                  className="pl-9 h-9 bg-accent/50 border-border text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-[#00A3FF]/30"
+                  className="pl-9 h-9 bg-accent/50 border-border text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-[#8E3AAA]/30"
                 />
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className={cn("h-9 w-9 flex-shrink-0 border", selectedLabelFilter ? "bg-[#00A3FF]/10 text-[#00A3FF] border-[#00A3FF]/20" : "bg-accent/50 border-border text-gray-500 hover:text-white")}>
+                  <Button variant="ghost" size="icon" className={cn("h-9 w-9 flex-shrink-0 border", selectedLabelFilter ? "bg-[#8E3AAA]/10 text-[#8E3AAA] border-[#8E3AAA]/20" : "bg-accent/50 border-border text-gray-500 hover:text-white")}>
                     <Filter className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48 bg-card border-border">
-                  <DropdownMenuItem onClick={() => setSelectedLabelFilter(null)} className={cn("text-xs cursor-pointer", !selectedLabelFilter && "font-bold text-[#00A3FF]")}>
+                  <DropdownMenuItem onClick={() => setSelectedLabelFilter(null)} className={cn("text-xs cursor-pointer", !selectedLabelFilter && "font-bold text-[#8E3AAA]")}>
                     Todas as conversas
                   </DropdownMenuItem>
                   {availableLabels.map(label => (
@@ -2000,7 +2017,7 @@ export default function AtendimentoPage() {
           <div className="flex-1 overflow-y-auto custom-scrollbar">
             {isLoadingConvs ? (
               <div className="flex items-center justify-center h-40">
-                <Loader2 className="h-6 w-6 animate-spin text-[#00A3FF]" />
+                <Loader2 className="h-6 w-6 animate-spin text-[#8E3AAA]" />
               </div>
             ) : filteredConvs.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full gap-3 p-8 text-center">
@@ -2014,7 +2031,7 @@ export default function AtendimentoPage() {
                 <Button
                   size="sm"
                   onClick={() => setIsNewConvOpen(true)}
-                  className="bg-[#00A3FF]/10 hover:bg-[#00A3FF]/20 text-[#00A3FF] border border-[#00A3FF]/20 gap-2"
+                  className="bg-[#8E3AAA]/10 hover:bg-[#8E3AAA]/20 text-[#8E3AAA] border border-[#8E3AAA]/20 gap-2"
                 >
                   <UserPlus className="h-3.5 w-3.5" />
                   Nova Conversa
@@ -2130,7 +2147,7 @@ export default function AtendimentoPage() {
                   <Popover open={isAgendamentoOpen} onOpenChange={setIsAgendamentoOpen}>
                     <PopoverTrigger asChild>
                       <button
-                        className="flex items-center gap-1.5 text-xs font-medium transition-colors px-2 md:px-3 py-1.5 rounded-lg border bg-[#00A3FF]/10 text-[#00A3FF] border-[#00A3FF]/20 hover:bg-[#00A3FF]/20"
+                        className="flex items-center gap-1.5 text-xs font-medium transition-colors px-2 md:px-3 py-1.5 rounded-lg border bg-[#8E3AAA]/10 text-[#8E3AAA] border-[#8E3AAA]/20 hover:bg-[#8E3AAA]/20"
                         title="Agendar Mensagem"
                       >
                         <CalendarClock className="h-3.5 w-3.5" />
@@ -2140,7 +2157,7 @@ export default function AtendimentoPage() {
                     <PopoverContent className="w-80 p-0 border-border dark:border-white/10 bg-popover dark:bg-[#12121A] shadow-2xl" align="end">
                       <div className="flex items-center justify-between p-3 border-b border-white/5">
                         <h4 className="font-semibold text-white text-sm flex items-center gap-2">
-                          <CalendarClock className="h-4 w-4 text-[#00A3FF]" />
+                          <CalendarClock className="h-4 w-4 text-[#8E3AAA]" />
                           Agendar Mensagem
                         </h4>
                         <Button
@@ -2176,7 +2193,7 @@ export default function AtendimentoPage() {
                           <Button
                             onClick={handleSaveAgendamento}
                             disabled={!agendamentoText.trim() || !agendamentoDate || isSavingAgendamento}
-                            className="w-full bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white h-9"
+                            className="w-full bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white h-9"
                           >
                             {isSavingAgendamento ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Agendar'}
                           </Button>
@@ -2209,7 +2226,7 @@ export default function AtendimentoPage() {
                         "flex items-center gap-1.5 text-xs font-medium transition-colors px-2 md:px-3 py-1.5 rounded-lg border",
                         selectedConv.lead_pausado 
                             ? "bg-[#D4A373]/10 text-[#D4A373] border-[#D4A373]/20 hover:bg-[#D4A373]/20" 
-                            : "bg-[#00A3FF]/10 text-[#00A3FF] border-[#00A3FF]/20 hover:bg-[#00A3FF]/20"
+                            : "bg-[#8E3AAA]/10 text-[#8E3AAA] border-[#8E3AAA]/20 hover:bg-[#8E3AAA]/20"
                     )}
                     title={selectedConv.lead_pausado ? "Retomar respostas automáticas da IA" : "Pausar respostas automáticas da IA"}
                   >
@@ -2308,7 +2325,7 @@ export default function AtendimentoPage() {
               <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar bg-background dark:bg-[#080810]">
                 {isLoadingMsgs ? (
                   <div className="flex items-center justify-center h-full">
-                    <Loader2 className="h-6 w-6 animate-spin text-[#00A3FF]" />
+                    <Loader2 className="h-6 w-6 animate-spin text-[#8E3AAA]" />
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 text-center">
@@ -2393,8 +2410,8 @@ export default function AtendimentoPage() {
             // Empty State
             <div className="flex-1 flex flex-col items-center justify-center gap-4 p-8 text-center">
               <div className="relative">
-                <div className="h-20 w-20 rounded-2xl bg-[#00A3FF]/10 border border-[#00A3FF]/20 flex items-center justify-center">
-                  <MessageSquare className="h-9 w-9 text-[#00A3FF]" />
+                <div className="h-20 w-20 rounded-2xl bg-[#8E3AAA]/10 border border-[#8E3AAA]/20 flex items-center justify-center">
+                  <MessageSquare className="h-9 w-9 text-[#8E3AAA]" />
                 </div>
                 {totalUnread > 0 && (
                   <div className="absolute -top-1 -right-1 h-5 w-5 bg-emerald-500 rounded-full border-2 border-background dark:border-[#0A0A0E] flex items-center justify-center">
@@ -2410,7 +2427,7 @@ export default function AtendimentoPage() {
               </div>
               <Button
                 onClick={() => setIsNewConvOpen(true)}
-                className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white gap-2 mt-1"
+                className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white gap-2 mt-1"
               >
                 <UserPlus className="h-4 w-4" />
                 Nova Conversa
@@ -2453,7 +2470,7 @@ export default function AtendimentoPage() {
             <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
               {isLoadingLead ? (
                 <div className="flex items-center justify-center h-24">
-                  <Loader2 className="h-5 w-5 animate-spin text-[#00A3FF]" />
+                  <Loader2 className="h-5 w-5 animate-spin text-[#8E3AAA]" />
                 </div>
               ) : leadDetails ? (
                 <>
@@ -2466,7 +2483,7 @@ export default function AtendimentoPage() {
                       value={leadDetails.full_name}
                       onChange={(e) => setLeadDetails(prev => prev ? { ...prev, full_name: e.target.value } : prev)}
                       placeholder="Nome do lead"
-                      className="h-8 text-sm bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 focus-visible:ring-[#00A3FF]/40"
+                      className="h-8 text-sm bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 focus-visible:ring-[#8E3AAA]/40"
                     />
                   </div>
 
@@ -2481,7 +2498,7 @@ export default function AtendimentoPage() {
                         value={leadDetails.valor}
                         onChange={(e) => setLeadDetails(prev => prev ? { ...prev, valor: e.target.value } : prev)}
                         placeholder="0,00"
-                        className="h-8 text-sm pl-8 bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 focus-visible:ring-[#00A3FF]/40"
+                        className="h-8 text-sm pl-8 bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 focus-visible:ring-[#8E3AAA]/40"
                         type="text"
                         inputMode="decimal"
                       />
@@ -2498,7 +2515,7 @@ export default function AtendimentoPage() {
                       onChange={(e) => setLeadDetails(prev => prev ? { ...prev, detalhes: e.target.value } : prev)}
                       placeholder="Resumo da conversa, observações, lembretes..."
                       rows={6}
-                      className="text-sm bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 resize-none focus-visible:ring-[#00A3FF]/40 placeholder:text-muted-foreground dark:placeholder:text-gray-600"
+                      className="text-sm bg-background dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-gray-100 resize-none focus-visible:ring-[#8E3AAA]/40 placeholder:text-muted-foreground dark:placeholder:text-gray-600"
                     />
                   </div>
                 </>
@@ -2513,7 +2530,7 @@ export default function AtendimentoPage() {
                 <Button
                   onClick={handleUpdateLead}
                   disabled={isSavingLead || isDeletingContact}
-                  className="w-full bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white h-8 text-sm gap-2"
+                  className="w-full bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white h-8 text-sm gap-2"
                 >
                   {isSavingLead ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
                   {isSavingLead ? "Salvando..." : "Salvar Dados"}
@@ -2606,7 +2623,7 @@ export default function AtendimentoPage() {
                 onChange={(e) => setNewConvMsg(e.target.value)}
                 placeholder="Ex: Olá! Preciso de ajuda com... (Se deixar em branco, o contato será criado sem enviar mensagem)"
                 rows={3}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-gray-100 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00A3FF]/50 resize-none"
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-gray-100 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8E3AAA]/50 resize-none"
               />
             </div>
           </div>
@@ -2615,7 +2632,7 @@ export default function AtendimentoPage() {
             <Button variant="ghost" onClick={() => setIsNewConvOpen(false)} disabled={isCreatingConv}>
               Cancelar
             </Button>
-            <Button onClick={handleCreateConversation} disabled={isCreatingConv} className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 gap-2">
+            <Button onClick={handleCreateConversation} disabled={isCreatingConv} className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 gap-2">
               {isCreatingConv ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

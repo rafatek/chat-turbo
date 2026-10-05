@@ -201,11 +201,11 @@ export function LeadSelector({ open, onOpenChange, onConfirm, initialFolder, ini
                                     className={cn(
                                         "flex flex-col items-start p-3 rounded-xl border min-w-[140px] transition-all",
                                         currentFolder === folder.name
-                                            ? "bg-blue-500/20 border-blue-500/50 text-blue-200"
+                                            ? "bg-[#8E3AAA]/20 border-[#8E3AAA]/50 text-blue-200"
                                             : "bg-white/5 border-white/5 text-muted-foreground hover:bg-white/10"
                                     )}
                                 >
-                                    <Folder className={cn("h-5 w-5 mb-2", currentFolder === folder.name ? "text-blue-400" : "text-gray-500")} />
+                                    <Folder className={cn("h-5 w-5 mb-2", currentFolder === folder.name ? "text-[#8E3AAA]" : "text-gray-500")} />
                                     <span className="font-medium text-sm truncate w-full text-left">{folder.name}</span>
                                 </button>
                             ))}
@@ -346,7 +346,7 @@ export function LeadSelector({ open, onOpenChange, onConfirm, initialFolder, ini
                                     variant="outline" 
                                     size="sm" 
                                     onClick={handleSelectAllFiltered} 
-                                    className="text-blue-400 border-blue-500/20 hover:bg-blue-500/10 gap-1.5"
+                                    className="text-[#8E3AAA] border-[#8E3AAA]/20 hover:bg-[#8E3AAA]/10 gap-1.5"
                                     disabled={loading}
                                 >
                                     <CheckSquare className="h-4 w-4" />
@@ -354,7 +354,7 @@ export function LeadSelector({ open, onOpenChange, onConfirm, initialFolder, ini
                                 </Button>
                             )}
                             <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>Limpar</Button>
-                            <Button size="sm" onClick={handleConfirm} className="bg-blue-600 hover:bg-blue-700 text-white">
+                            <Button size="sm" onClick={handleConfirm} className="bg-[#8738B5] hover:bg-blue-700 text-white">
                                 Usar Selecionados
                             </Button>
                         </div>

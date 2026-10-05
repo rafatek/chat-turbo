@@ -13,7 +13,7 @@ export function ProspectingConfigSheet({ open, onOpenChange }: any) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="bg-[#0A0A12] border-white/5 text-white sm:max-w-[540px]">
         <SheetHeader>
-          <SheetTitle className="text-[#00A3FF] font-bold uppercase tracking-widest">
+          <SheetTitle className="text-[#8E3AAA] font-bold uppercase tracking-widest">
             Configuração de Prospecção
           </SheetTitle>
           <SheetDescription className="text-gray-500 text-xs">

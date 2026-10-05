@@ -30,3 +30,4 @@ next-env.d.ts
 *.cjs
 test_*.js
 instances.json
+supabase/migrations/exporte*.txt

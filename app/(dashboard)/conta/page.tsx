@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { CreditCard, Loader2, Save, User, Smartphone, Mail, ShieldCheck, Zap, CheckCircle2 } from "lucide-react"
+import { CreditCard, Loader2, Save, User, Smartphone, Mail, ShieldCheck, Zap, CheckCircle2, FileText } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
@@ -19,10 +19,16 @@ export default function ContaPage() {
   const [profile, setProfile] = useState<{
     full_name: string
     whatsapp: string
+    cpf_cnpj: string
+    subscription_status: string
+    asaas_customer_id: string
     [key: string]: any
   }>({
     full_name: "",
     whatsapp: "",
+    cpf_cnpj: "",
+    subscription_status: "active",
+    asaas_customer_id: "",
   })
 
   useEffect(() => {
@@ -38,7 +44,7 @@ export default function ContaPage() {
 
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('full_name, whatsapp')
+          .select('full_name, whatsapp, cpf_cnpj, subscription_status, asaas_customer_id')
           .eq('id', user.id)
           .single()
 
@@ -50,6 +56,9 @@ export default function ContaPage() {
           setProfile({
             full_name: profile.full_name || "",
             whatsapp: profile.whatsapp || "",
+            cpf_cnpj: profile.cpf_cnpj || "",
+            subscription_status: profile.subscription_status || "active",
+            asaas_customer_id: profile.asaas_customer_id || "",
           })
         }
       } catch (error) {
@@ -78,6 +87,7 @@ export default function ContaPage() {
         .update({
           full_name: profile.full_name,
           whatsapp: profile.whatsapp,
+          cpf_cnpj: profile.cpf_cnpj || null,
           updated_at: new Date().toISOString()
         })
         .eq('id', user.id)
@@ -181,6 +191,20 @@ export default function ContaPage() {
                     />
                   </div>
                 </div>
+
+                <div className="space-y-2 group">
+                  <Label htmlFor="cpf" className="text-xs uppercase text-muted-foreground font-semibold tracking-wider">CPF / CNPJ</Label>
+                  <div className="relative">
+                    <CreditCard className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                    <Input
+                      id="cpf"
+                      value={profile.cpf_cnpj}
+                      onChange={(e) => setProfile({ ...profile, cpf_cnpj: e.target.value })}
+                      placeholder="000.000.000-00"
+                      className="pl-10 bg-background/50 border-primary/10 focus-visible:ring-primary/20 transition-all duration-300"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex justify-end pt-4">
@@ -214,39 +238,48 @@ export default function ContaPage() {
             <CardHeader className="pb-4 border-b border-primary/10">
               <div className="flex items-center gap-2">
                 <Zap className="h-5 w-5 text-primary filled" />
-                <CardTitle>Plano Atual</CardTitle>
+                <CardTitle>Assinatura & Faturamento</CardTitle>
               </div>
-              <CardDescription>Detalhes da sua assinatura ativa</CardDescription>
+              <CardDescription>Detalhes da sua conta integrada ao Asaas</CardDescription>
             </CardHeader>
             <CardContent className="pt-6 space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-background/40 border border-primary/5">
-                  <span className="text-sm text-muted-foreground">Plano</span>
-                  <Badge className="bg-primary/20 text-primary hover:bg-primary/30 border-primary/20 px-4 py-1 text-sm font-medium">
-                    Start
+                  <span className="text-sm text-muted-foreground">Status</span>
+                  <Badge className={
+                    profile.subscription_status === 'active' 
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 px-3 py-1 text-sm font-medium"
+                      : profile.subscription_status === 'vencida'
+                      ? "bg-red-500/20 text-red-400 border-red-500/30 px-3 py-1 text-sm font-medium"
+                      : "bg-amber-500/20 text-amber-400 border-amber-500/30 px-3 py-1 text-sm font-medium"
+                  }>
+                    {profile.subscription_status === 'active' ? 'Ativo' : profile.subscription_status === 'vencida' ? 'Fatura Vencida' : 'Inativo'}
                   </Badge>
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-lg bg-background/40 border border-primary/5">
-                  <span className="text-sm text-muted-foreground">Valor</span>
-                  <span className="text-sm font-bold text-foreground">R$ 97,00<span className="text-xs font-normal text-muted-foreground">/mês</span></span>
-                </div>
+                {profile.asaas_customer_id && (
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-background/40 border border-primary/5">
+                    <span className="text-sm text-muted-foreground">ID Cliente Asaas</span>
+                    <span className="text-xs font-mono text-muted-foreground">{profile.asaas_customer_id}</span>
+                  </div>
+                )}
 
                 <div className="p-4 rounded-lg bg-primary/10 border border-primary/10">
                   <p className="text-sm text-primary/90 leading-relaxed font-medium">
-                    ✨ Acesso total ao sistema do ProspektIA liberado.
+                    {profile.subscription_status === 'active'
+                      ? "✨ Acesso liberado ao Chat Turbo IA com cobrança gerenciada via Asaas."
+                      : "⚠️ Sua assinatura requer atenção. Verifique suas faturas pendentes."}
                   </p>
                 </div>
               </div>
 
               <Link
-                href={process.env.NEXT_PUBLIC_KIWIFY_CHECKOUT_URL || "#"}
-                target="_blank"
+                href="/faturas"
                 className="w-full block"
               >
                 <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/10 hover:text-primary transition-all duration-300 group">
-                  <CreditCard className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-                  Gerenciar Assinatura
+                  <FileText className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+                  Ver Faturas & Pagamentos
                 </Button>
               </Link>
             </CardContent>

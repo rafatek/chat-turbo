@@ -218,7 +218,7 @@ export default function AutomacaoConfigPage() {
             </div>
 
             {/* Header / URL Bar style Leylim */}
-            <Card className="border-blue-500/20 bg-blue-500/5">
+            <Card className="border-[#8E3AAA]/20 bg-[#8E3AAA]/5">
                 <CardContent className="p-4 flex flex-col md:flex-row items-center gap-4">
                     <div className="flex items-center gap-3 bg-accent/50 border border-border p-2 px-4 rounded-full w-full md:w-auto flex-1">
                         <div className="flex items-center gap-2 mr-2">

@@ -1,10 +1,10 @@
-# Chat Legado
+# Plataforma Turbo IA
 
-Bem-vindo ao **Chat Legado**! Este é um sistema completo de CRM e Atendimento Omnichannel projetado para otimizar vendas e suporte através do WhatsApp.
+Bem-vindo ao **Plataforma Turbo IA**! Este é um sistema completo de CRM e Atendimento Omnichannel projetado para otimizar vendas e suporte através do WhatsApp.
 
 ## 🚀 Visão Geral
 
-O Chat Legado centraliza o atendimento ao cliente e o acompanhamento de leads em uma plataforma robusta e responsiva. Construído com as tecnologias mais modernas do ecossistema React, ele oferece recursos de chat em tempo real, gestão visual de funis de vendas (Kanban) e integrações poderosas.
+O Plataforma Turbo IA centraliza o atendimento ao cliente e o acompanhamento de leads em uma plataforma robusta e responsiva. Construído com as tecnologias mais modernas do ecossistema React, ele oferece recursos de chat em tempo real, gestão visual de funis de vendas (Kanban) e integrações poderosas.
 
 ## ✨ Funcionalidades Principais
 

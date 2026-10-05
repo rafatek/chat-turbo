@@ -30,7 +30,7 @@ export async function getAdminProfiles() {
         // 1. Fetch all profiles explicitly without secret fields like invoice_pin
         const { data: profilesData, error: profilesError } = await supabaseAdmin
             .from("profiles")
-            .select("id, full_name, email, subscription_status, server_id, is_admin, updated_at, cpf_cnpj")
+            .select("id, full_name, email, subscription_status, server_id, is_admin, updated_at, cpf_cnpj, asaas_customer_id, asaas_subscription_id, next_due_date")
 
         if (profilesError) {
             console.error(`Error fetching profiles: [${profilesError.code}] ${profilesError.message}`)
@@ -622,7 +622,7 @@ export async function linkAsaasAccount(userId: string) {
         await verifyAdmin()
         const supabaseAdmin = await createAdminClient()
         
-        const { data: profile } = await supabaseAdmin.from('profiles').select('email, cpf_cnpj').eq('id', userId).single()
+        const { data: profile } = await supabaseAdmin.from('profiles').select('email, cpf_cnpj, full_name').eq('id', userId).single()
         if (!profile) return { success: false, error: 'Usuário não encontrado.' }
 
         const { ASAAS_API_URL, ASAAS_API_KEY } = await import('@/lib/asaas')
@@ -648,8 +648,17 @@ export async function linkAsaasAccount(userId: string) {
             }
         }
 
+        // Try by Name if not found
+        if (!customer && profile.full_name) {
+            const nameRes = await fetch(`${ASAAS_API_URL}/customers?name=${encodeURIComponent(profile.full_name)}`, { headers })
+            const nameData = await nameRes.json()
+            if (nameData.data && nameData.data.length > 0) {
+                customer = nameData.data[0]
+            }
+        }
+
         if (!customer) {
-            return { success: false, error: 'Nenhum cliente encontrado no Asaas com o email ou CPF deste usuário.' }
+            return { success: false, error: 'Nenhum cliente encontrado no Asaas com o email, CPF ou Nome deste usuário.' }
         }
 
         // Find active subscription
@@ -666,9 +675,11 @@ export async function linkAsaasAccount(userId: string) {
         // Save to Supabase
         await supabaseAdmin.from('profiles').update({
             asaas_customer_id: customer.id,
-            asaas_subscription_id: subscriptionId || null
+            asaas_subscription_id: subscriptionId || null,
+            cpf_cnpj: profile.cpf_cnpj || customer.cpfCnpj || null
         }).eq('id', userId)
 
+        revalidatePath("/admin")
         return { success: true }
     } catch (err: any) {
         return { success: false, error: err.message }

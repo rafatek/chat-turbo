@@ -130,8 +130,8 @@ export function AppHeader({ onMenuClick }: AppHeaderProps) {
             <Dialog>
               <DialogTrigger asChild>
                 <Button
-                  className={`gap-2 bg-[#00A3FF] hover:bg-[#0082CC] text-white shadow-lg shadow-[#00A3FF]/20 transition-all hover:scale-105 
-                    ${showTour ? 'relative z-[60] ring-4 ring-[#00A3FF]/50 ring-offset-2 ring-offset-background' : ''}`}
+                  className={`gap-2 bg-[#8E3AAA] hover:bg-[#8738B5] text-white shadow-lg shadow-[#8E3AAA]/20 transition-all hover:scale-105 
+                    ${showTour ? 'relative z-[60] ring-4 ring-[#8E3AAA]/50 ring-offset-2 ring-offset-background' : ''}`}
                 >
                   <PlayCircle className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider hidden sm:inline">Tutorial da Página</span>
@@ -140,7 +140,7 @@ export function AppHeader({ onMenuClick }: AppHeaderProps) {
               <DialogContent showCloseButton={false} className="sm:max-w-[800px] p-0 overflow-hidden bg-black/90 border-white/10">
                 <DialogHeader className="flex flex-row items-center justify-between p-4 absolute z-10 w-full bg-gradient-to-b from-black/80 to-transparent">
                   <DialogTitle className="text-white text-sm font-bold uppercase tracking-widest">
-                    Legado <span className="text-[#00A3FF]">Academy</span>
+                    Legado <span className="text-[#8E3AAA]">Academy</span>
                   </DialogTitle>
                   <DialogClose className="rounded-full p-1 hover:bg-white/10 transition-colors text-white cursor-pointer z-50">
                     <X className="h-5 w-5" />
@@ -167,7 +167,7 @@ export function AppHeader({ onMenuClick }: AppHeaderProps) {
             </Dialog>
           ) : (
             <Button
-              className={`gap-2 bg-[#00A3FF] hover:bg-[#0082CC] text-white shadow-lg shadow-[#00A3FF]/20 transition-all hover:scale-105`}
+              className={`gap-2 bg-[#8E3AAA] hover:bg-[#8738B5] text-white shadow-lg shadow-[#8E3AAA]/20 transition-all hover:scale-105`}
             >
               <PlayCircle className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider hidden sm:inline">Tutorial da Página</span>

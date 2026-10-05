@@ -152,7 +152,7 @@ export default function AgentsHubPage() {
         </Card>
 
         {/* === CARD AGENTE AGENDAMENTO === */}
-        <Card className="relative overflow-hidden border-blue-500/20 bg-gradient-to-b from-card to-card/50 transition-all hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/5">
+        <Card className="relative overflow-hidden border-[#8E3AAA]/20 bg-gradient-to-b from-card to-card/50 transition-all hover:border-[#8E3AAA]/40 hover:shadow-lg hover:shadow-blue-500/5">
           <div className="absolute top-0 right-0 p-4">
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
@@ -164,7 +164,7 @@ export default function AgentsHubPage() {
           </div>
 
           <CardHeader className="flex flex-row items-start gap-4 space-y-0">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#8E3AAA]/10 text-[#8E3AAA]">
               <Calendar className="h-6 w-6" />
             </div>
             <div className="space-y-1">
@@ -186,7 +186,7 @@ export default function AgentsHubPage() {
 
           <CardFooter>
             <Button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-900/20"
+              className="w-full bg-[#8738B5] hover:bg-blue-700 text-white shadow-md shadow-blue-900/20"
               onClick={() => setIsAgendamentoSheetOpen(true)}
             >
               <Settings2 className="mr-2 h-4 w-4" />

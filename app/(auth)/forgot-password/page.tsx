@@ -299,7 +299,7 @@ export default function ForgotPasswordPage() {
                             )}
 
                             <div className="flex justify-center pt-2">
-                                <Link href="/login" className="flex items-center text-xs text-gray-500 hover:text-blue-400 transition-colors gap-2">
+                                <Link href="/login" className="flex items-center text-xs text-gray-500 hover:text-[#8E3AAA] transition-colors gap-2">
                                     <ArrowLeft className="w-3 h-3" /> Voltar para Login
                                 </Link>
                             </div>

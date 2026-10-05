@@ -122,14 +122,14 @@ export default async function FaturasPage() {
         {/* ASSINATURA PENDENTE */}
         <div>
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <FileText className="h-5 w-5 text-blue-500" /> Assinatura Mensal (A Pagar)
+            <FileText className="h-5 w-5 text-[#8E3AAA]" /> Assinatura Mensal (A Pagar)
           </h2>
           {pendingSubscription.length === 0 ? (
             <p className="text-sm text-muted-foreground">Nenhuma fatura de assinatura pendente no momento.</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {pendingSubscription.map((invoice: any) => (
-                <Card key={invoice.id} className="border-blue-500/30 hover:border-blue-500/60 transition-colors bg-blue-500/5">
+                <Card key={invoice.id} className="border-[#8E3AAA]/30 hover:border-[#8E3AAA]/60 transition-colors bg-[#8E3AAA]/5">
                   <CardHeader className="pb-3">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-lg flex items-center gap-2">
@@ -145,11 +145,11 @@ export default async function FaturasPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold mb-4 text-blue-400">
+                    <p className="text-2xl font-bold mb-4 text-[#8E3AAA]">
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(invoice.value)}
                     </p>
                     <Link href={invoice.invoiceUrl} target="_blank">
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                      <Button className="w-full bg-[#8738B5] hover:bg-blue-700 text-white">
                         Pagar Assinatura
                       </Button>
                     </Link>
@@ -231,7 +231,7 @@ export default async function FaturasPage() {
                       </td>
                       <td className="px-4 py-3">
                         {invoice.subscription ? (
-                          <span className="text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded">Assinatura</span>
+                          <span className="text-[#8E3AAA] text-xs bg-[#8E3AAA]/10 px-2 py-1 rounded">Assinatura</span>
                         ) : (
                           <span className="text-purple-400 text-xs bg-purple-500/10 px-2 py-1 rounded">Avulsa</span>
                         )}

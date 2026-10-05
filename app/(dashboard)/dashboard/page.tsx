@@ -38,7 +38,7 @@ export default function DashboardPage() {
   const [funnelData, setFunnelData] = useState<any[]>([])
   const [sourceData, setSourceData] = useState<any[]>([])
 
-  const COLORS = ['#00A3FF', '#0066FF', '#00CCFF', '#0044BB', '#0082CC']
+  const COLORS = ['#8E3AAA', '#0066FF', '#00CCFF', '#0044BB', '#8738B5']
 
   useEffect(() => {
     const checkUser = async () => {
@@ -138,7 +138,7 @@ export default function DashboardPage() {
           ) : (
             <span>{fullName?.split(' ')[0]}</span>
           )}
-          <span className="text-[#00A3FF]">!</span>&nbsp;{saudacao}<span className="text-[#00A3FF]">.</span>
+          <span className="text-[#8E3AAA]">!</span>&nbsp;{saudacao}<span className="text-[#8E3AAA]">.</span>
         </h1>
         <p className="text-gray-600 uppercase text-[10px] font-bold tracking-[0.4em] mt-1">Legado Performance Digital • Dashboard</p>
       </div>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
           <Card key={i} className="bg-card border-border backdrop-blur-xl">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-[10px] uppercase tracking-[0.2em] font-black text-gray-600">{item.title}</CardTitle>
-              <item.icon className="h-4 w-4 text-[#00A3FF]" />
+              <item.icon className="h-4 w-4 text-[#8E3AAA]" />
             </CardHeader>
             <CardContent>
               {loading ? <div className="h-8 w-20 bg-accent rounded animate-pulse" /> : <div className="text-3xl font-black tracking-tight text-foreground">{item.value}</div>}
@@ -201,7 +201,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-7">
         <Card className="col-span-4 bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-sm font-black uppercase tracking-widest text-[#00A3FF]">Funil de Vendas</CardTitle>
+            <CardTitle className="text-sm font-black uppercase tracking-widest text-[#8E3AAA]">Funil de Vendas</CardTitle>
             <CardDescription className="text-[10px] uppercase text-gray-700 tracking-wider font-bold">Distribuição por etapa do CRM</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
@@ -212,8 +212,8 @@ export default function DashboardPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
                     <XAxis dataKey="name" stroke="#444" fontSize={10} tickLine={false} axisLine={false} />
                     <YAxis stroke="#444" fontSize={10} tickLine={false} axisLine={false} allowDecimals={false} />
-                    <Tooltip contentStyle={{ backgroundColor: '#050508', border: '1px solid #ffffff10', borderRadius: '8px' }} itemStyle={{ color: '#00A3FF', fontWeight: '900', textTransform: 'uppercase', fontSize: '10px' }} cursor={{ fill: '#ffffff05' }} />
-                    <Bar dataKey="leads" fill="#00A3FF" radius={[4, 4, 0, 0]} barSize={32} />
+                    <Tooltip contentStyle={{ backgroundColor: '#050508', border: '1px solid #ffffff10', borderRadius: '8px' }} itemStyle={{ color: '#8E3AAA', fontWeight: '900', textTransform: 'uppercase', fontSize: '10px' }} cursor={{ fill: '#ffffff05' }} />
+                    <Bar dataKey="leads" fill="#8E3AAA" radius={[4, 4, 0, 0]} barSize={32} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : <div className="h-full flex items-center justify-center text-[10px] uppercase tracking-widest text-gray-800">Sincronizando...</div>}
@@ -223,7 +223,7 @@ export default function DashboardPage() {
 
         <Card className="col-span-3 bg-card border-border backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-sm font-black uppercase tracking-widest text-[#00A3FF]">Origem dos Leads</CardTitle>
+            <CardTitle className="text-sm font-black uppercase tracking-widest text-[#8E3AAA]">Origem dos Leads</CardTitle>
             <CardDescription className="text-[10px] uppercase text-gray-700 tracking-wider font-bold">Principais canais de entrada</CardDescription>
           </CardHeader>
           <CardContent>

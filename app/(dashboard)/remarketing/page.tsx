@@ -92,7 +92,7 @@ function getRmkStatusLabel(rmk: SearchResultLead["rmk"]): { label: string; color
   if (!rmk || rmk.rmk_enabled === false) return { label: "RMK Inativo", color: "text-muted-foreground bg-accent/50 border-border" }
   const status = rmk.remarketing_status
   if (!status || status === "none") return { label: "Aguardando disparo", color: "text-muted-foreground bg-accent/50 border-border" }
-  if (["sent_1", "sent_2", "sent_3", "sent_4"].includes(status)) return { label: `Em sequência (${rmk.remarketing_attempts}x)`, color: "text-[#00A3FF] bg-[#00A3FF]/10 border-[#00A3FF]/20" }
+  if (["sent_1", "sent_2", "sent_3", "sent_4"].includes(status)) return { label: `Em sequência (${rmk.remarketing_attempts}x)`, color: "text-[#8E3AAA] bg-[#8E3AAA]/10 border-[#8E3AAA]/20" }
   if (status === "optout") return { label: "Opt-out", color: "text-red-500 bg-red-500/10 border-red-500/20" }
   if (status === "converted") return { label: "Convertido", color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" }
   return { label: status, color: "text-muted-foreground bg-accent/50 border-border" }
@@ -426,7 +426,7 @@ export default function RemarketingPage() {
   if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#00A3FF]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
       </div>
     )
   }
@@ -440,7 +440,7 @@ export default function RemarketingPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 md:p-8 gap-4 border-b border-border flex-shrink-0">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Target className="h-6 w-6 text-[#00A3FF]" />
+            <Target className="h-6 w-6 text-[#8E3AAA]" />
             Remarketing Automático
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
@@ -451,7 +451,7 @@ export default function RemarketingPage() {
         <Button
           onClick={handleSave}
           disabled={isSaving}
-          className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white gap-2 h-10 px-5 flex-shrink-0"
+          className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white gap-2 h-10 px-5 flex-shrink-0"
         >
           {isSaving ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -467,7 +467,7 @@ export default function RemarketingPage() {
         {/* ── Seção 1 — Controle Principal ────────────────────────────────── */}
         <div className="bg-card border border-border rounded-2xl p-6 space-y-6">
           <div className="flex items-center gap-2 mb-1">
-            <Power className="h-4 w-4 text-[#00A3FF]" />
+            <Power className="h-4 w-4 text-[#8E3AAA]" />
             <h2 className="text-sm font-semibold text-foreground uppercase tracking-widest">
               Controle Principal
             </h2>
@@ -506,7 +506,7 @@ export default function RemarketingPage() {
                   className={cn(
                     "flex-1 py-3 rounded-xl border text-sm font-bold transition-all",
                     config.max_attempts === n
-                      ? "bg-[#00A3FF]/10 border-[#00A3FF]/40 text-[#00A3FF]"
+                      ? "bg-[#8E3AAA]/10 border-[#8E3AAA]/40 text-[#8E3AAA]"
                       : "bg-accent/30 border-border text-muted-foreground hover:bg-accent/50"
                   )}
                 >
@@ -520,10 +520,10 @@ export default function RemarketingPage() {
           </div>
 
           {/* Info Banner */}
-          <div className="flex items-start gap-3 bg-[#00A3FF]/5 border border-[#00A3FF]/10 rounded-xl p-4">
-            <Calendar className="h-4 w-4 text-[#00A3FF] flex-shrink-0 mt-0.5" />
+          <div className="flex items-start gap-3 bg-[#8E3AAA]/5 border border-[#8E3AAA]/10 rounded-xl p-4">
+            <Calendar className="h-4 w-4 text-[#8E3AAA] flex-shrink-0 mt-0.5" />
             <div className="text-xs text-muted-foreground leading-relaxed">
-              <span className="text-[#00A3FF] font-semibold">Agendamento automático:</span>{" "}
+              <span className="text-[#8E3AAA] font-semibold">Agendamento automático:</span>{" "}
               Disparos ocorrem <strong className="text-foreground">toda quarta-feira às 09:00</strong>.
               O gatilho é definido como <strong className="text-foreground">lead sem resposta após o último contato da empresa</strong>.
             </div>
@@ -584,7 +584,7 @@ export default function RemarketingPage() {
             {/* Template Cold */}
             <div className="space-y-2">
               <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-[#8E3AAA] inline-block" />
                 Lead Frio
               </Label>
               <textarea
@@ -592,7 +592,7 @@ export default function RemarketingPage() {
                 onChange={(e) => setConfig({ ...config, template_cold: e.target.value })}
                 placeholder={"Oi {{nome}}! Tudo bem? Estava pensando em você e gostaria de entender melhor como posso ajudar..."}
                 rows={5}
-                className="w-full resize-none rounded-xl bg-background border border-input p-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-blue-500/50 custom-scrollbar"
+                className="w-full resize-none rounded-xl bg-background border border-input p-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[#8E3AAA]/50 custom-scrollbar"
               />
             </div>
 
@@ -654,9 +654,9 @@ export default function RemarketingPage() {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-accent/30 border border-[#00A3FF]/20 rounded-xl p-4 text-center">
-                <Target className="h-5 w-5 text-[#00A3FF] mx-auto mb-2" />
-                <p className="text-2xl font-bold text-[#00A3FF]">{stats.active}</p>
+              <div className="bg-accent/30 border border-[#8E3AAA]/20 rounded-xl p-4 text-center">
+                <Target className="h-5 w-5 text-[#8E3AAA] mx-auto mb-2" />
+                <p className="text-2xl font-bold text-[#8E3AAA]">{stats.active}</p>
                 <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Em sequência ativa</p>
               </div>
 

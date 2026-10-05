@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Legado Performance",
-  description: "Engenharia de Performance & Escala",
+  title: "Plataforma Turbo IA",
+  description: "Plataforma de IA e Atendimento Omnichannel",
   generator: "v0.app",
   icons: {
     icon: [

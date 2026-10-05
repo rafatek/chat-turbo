@@ -104,7 +104,7 @@ export function LabelManager({ availableLabels, onLabelsChange }: LabelManagerPr
                                     className="absolute -top-2 -left-2 w-16 h-16 cursor-pointer"
                                 />
                             </div>
-                            <Button onClick={handleCreate} disabled={!title.trim() || isSaving} className="bg-[#00A3FF] hover:bg-[#00A3FF]/80">
+                            <Button onClick={handleCreate} disabled={!title.trim() || isSaving} className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80">
                                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                             </Button>
                         </div>

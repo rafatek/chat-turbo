@@ -136,11 +136,11 @@ export function AppSidebar({ isOpen = false, onClose }: AppSidebarProps) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-black uppercase tracking-widest transition-all duration-200",
                 isActive
-                  ? "bg-[#00A3FF]/10 text-[#00A3FF] border border-[#00A3FF]/20"
+                  ? "bg-[#8E3AAA]/10 text-[#8E3AAA] border border-[#8E3AAA]/20"
                   : "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground",
               )}
             >
-              <item.icon className={cn("h-4 w-4", isActive ? "text-[#00A3FF]" : "text-sidebar-foreground/50")} />
+              <item.icon className={cn("h-4 w-4", isActive ? "text-[#8E3AAA]" : "text-sidebar-foreground/50")} />
               {item.name}
             </Link>
           )
@@ -164,8 +164,8 @@ export function AppSidebar({ isOpen = false, onClose }: AppSidebarProps) {
 
       <div className="border-t border-sidebar-border p-4 space-y-3 bg-sidebar/50">
         <div className="flex items-center gap-3 px-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00A3FF]/20 border border-[#00A3FF]/30">
-            <User className="h-4 w-4 text-[#00A3FF]" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8E3AAA]/20 border border-[#8E3AAA]/30">
+            <User className="h-4 w-4 text-[#8E3AAA]" />
           </div>
           <div className="flex-1 overflow-hidden">
             {loading ? (

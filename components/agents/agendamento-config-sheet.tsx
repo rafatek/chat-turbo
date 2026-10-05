@@ -128,7 +128,7 @@ export function AgendamentoConfigSheet({ open, onOpenChange }: AgendamentoConfig
                 <div className="h-full overflow-y-auto p-6">
                     <SheetHeader className="mb-8">
                         <SheetTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent flex items-center gap-3">
-                            <Calendar className="h-8 w-8 text-blue-400" />
+                            <Calendar className="h-8 w-8 text-[#8E3AAA]" />
                             Agente de Agendamento
                         </SheetTitle>
                         <SheetDescription className="text-lg">
@@ -166,7 +166,7 @@ export function AgendamentoConfigSheet({ open, onOpenChange }: AgendamentoConfig
                                     <div className="space-y-3">
                                         <Label className="text-base">Prompt do Agendamento</Label>
                                         <Textarea
-                                            className="min-h-[300px] resize-none font-mono text-sm bg-black/20 border-white/10 focus:border-blue-500/50 p-4 leading-relaxed"
+                                            className="min-h-[300px] resize-none font-mono text-sm bg-black/20 border-white/10 focus:border-[#8E3AAA]/50 p-4 leading-relaxed"
                                             placeholder="Ex: Você é um assistente de agendamento. Verifique a disponibilidade..."
                                             value={config.prompt_agendamento || ''}
                                             onChange={(e) => setConfig({ ...config, prompt_agendamento: e.target.value })}
@@ -199,8 +199,8 @@ export function AgendamentoConfigSheet({ open, onOpenChange }: AgendamentoConfig
                                                 </Button>
                                             </div>
                                         ) : (
-                                            <div className="flex flex-col items-center justify-center p-6 bg-blue-500/5 border border-blue-500/20 rounded-lg space-y-4">
-                                                <AlertCircle className="h-12 w-12 text-blue-400" />
+                                            <div className="flex flex-col items-center justify-center p-6 bg-[#8E3AAA]/5 border border-[#8E3AAA]/20 rounded-lg space-y-4">
+                                                <AlertCircle className="h-12 w-12 text-[#8E3AAA]" />
                                                 <div className="text-center">
                                                     <h4 className="text-lg font-medium text-blue-300">Não Conectado</h4>
                                                     <p className="text-sm text-blue-200/70 mt-1">Conecte sua conta para permitir agendamentos.</p>
@@ -231,7 +231,7 @@ export function AgendamentoConfigSheet({ open, onOpenChange }: AgendamentoConfig
                         <SheetClose asChild>
                             <Button variant="ghost" size="lg" disabled={loading} className="text-muted-foreground hover:text-white">Cancelar</Button>
                         </SheetClose>
-                        <Button onClick={handleSave} disabled={loading || fetching} size="lg" className="bg-blue-600 hover:bg-blue-700 text-white min-w-[200px] shadow-lg shadow-blue-500/20">
+                        <Button onClick={handleSave} disabled={loading || fetching} size="lg" className="bg-[#8738B5] hover:bg-blue-700 text-white min-w-[200px] shadow-lg shadow-blue-500/20">
                             {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                             Salvar Configurações
                         </Button>

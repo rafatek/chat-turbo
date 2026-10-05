@@ -164,7 +164,7 @@ export default function GatilhosPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 md:p-8 gap-4 border-b border-white/5">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Zap className="h-6 w-6 text-[#00A3FF]" />
+            <Zap className="h-6 w-6 text-[#8E3AAA]" />
             Gatilhos de Mensagem
           </h1>
           <p className="text-gray-400 mt-1">Aplique etiquetas automaticamente aos novos leads com base na primeira mensagem recebida.</p>
@@ -172,14 +172,14 @@ export default function GatilhosPage() {
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white gap-2 h-10 px-4">
+            <Button className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white gap-2 h-10 px-4">
               <Plus className="h-4 w-4" />
               <span className="hidden sm:inline">Novo Gatilho</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] bg-[#12121A] border-white/10 text-white">
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-[#00A3FF]">
+              <DialogTitle className="flex items-center gap-2 text-[#8E3AAA]">
                 <Zap className="h-5 w-5" />
                 Criar Gatilho
               </DialogTitle>
@@ -195,7 +195,7 @@ export default function GatilhosPage() {
                   placeholder="Ex: olá, gostaria de saber mais"
                   value={newTriggerText}
                   onChange={(e) => setNewTriggerText(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#00A3FF]/30"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus-visible:ring-[#8E3AAA]/30"
                 />
                 <p className="text-[10px] text-gray-500">O sistema vai ignorar maiúsculas/minúsculas.</p>
               </div>
@@ -238,7 +238,7 @@ export default function GatilhosPage() {
               <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
                 Cancelar
               </Button>
-              <Button onClick={handleCreate} disabled={isSaving} className="bg-[#00A3FF] hover:bg-[#00A3FF]/80 text-white">
+              <Button onClick={handleCreate} disabled={isSaving} className="bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white">
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Salvar Gatilho
               </Button>
@@ -250,7 +250,7 @@ export default function GatilhosPage() {
       <div className="flex-1 p-6 md:p-8 overflow-y-auto custom-scrollbar">
         {isLoading ? (
           <div className="h-full flex items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-[#00A3FF]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#8E3AAA]" />
           </div>
         ) : (
           <div className="max-w-4xl mx-auto space-y-6">
@@ -262,7 +262,7 @@ export default function GatilhosPage() {
                 placeholder="Buscar gatilhos por texto..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 bg-white/5 border-white/10 text-white h-12 rounded-xl focus-visible:ring-[#00A3FF]/30 placeholder:text-gray-600"
+                className="pl-10 bg-white/5 border-white/10 text-white h-12 rounded-xl focus-visible:ring-[#8E3AAA]/30 placeholder:text-gray-600"
               />
             </div>
 
