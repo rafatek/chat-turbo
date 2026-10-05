@@ -4,26 +4,36 @@
 - Servidor com Docker e Docker Compose instalados.
 - Arquivos do projeto no servidor.
 
-## Passos para Deploy
+## Deploy via Portainer (Stacks > Repository)
 
-1. **Configurar Ambiente**
-   - Copie `.env.production.example` para `.env`.
-   - Preencha as variáveis, especialmente `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY`.
+1. No Portainer, vá em **Stacks** -> **Add stack**.
+2. Selecione o método **Repository**.
+3. Preencha os campos:
+   - **Repository URL**: `https://github.com/rafatek/chat-turbo`
+   - **Repository reference**: `refs/heads/main`
+   - **Compose path**: `docker-compose.yml`
+4. Na seção **Environment variables**:
+   - Clique em **Advanced mode** e cole as variáveis do seu arquivo `.env` (ou use `.env.example` como base).
+5. Clique em **Deploy the stack**.
 
-2. **Build da Imagem**
-   No diretório raiz do projeto:
+## Deploy via Terminal (Docker / Docker Compose)
+
+1. Clone o repositório na sua VPS:
    ```bash
-   docker build -t chat-turbo-app .
+   git clone https://github.com/rafatek/chat-turbo.git
+   cd chat-turbo
    ```
 
-3. **Executar o Container**
+2. Crie o arquivo `.env`:
    ```bash
-   docker run -d \
-     -p 3000:3000 \
-     --name chat-turbo-app \
-     --env-file .env \
-     --restart unless-stopped \
-     chat-turbo-app
+   cp .env.example .env
+   # Edite o .env com suas credenciais reais
+   nano .env
+   ```
+
+3. Suba com Docker Compose:
+   ```bash
+   docker compose up -d --build
    ```
 
 4. **Verificação**
