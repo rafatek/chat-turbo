@@ -3,8 +3,12 @@ import { cookies } from 'next/headers'
 
 export async function createClient() {
     const cookieStore = await cookies()
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!url || !anonKey) {
+        throw new Error('Variáveis do Supabase (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY) ausentes no runtime do servidor.')
+    }
 
     return createServerClient(
         url,
@@ -19,8 +23,6 @@ export async function createClient() {
                         cookieStore.set({ name, value, ...options })
                     } catch (error) {
                         // The `set` method was called from a Server Component.
-                        // This can be ignored if you have middleware refreshing
-                        // user sessions.
                     }
                 },
                 remove(name: string, options: CookieOptions) {
@@ -28,8 +30,6 @@ export async function createClient() {
                         cookieStore.set({ name, value: '', ...options })
                     } catch (error) {
                         // The `delete` method was called from a Server Component.
-                        // This can be ignored if you have middleware refreshing
-                        // user sessions.
                     }
                 },
             },
