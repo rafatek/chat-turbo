@@ -1,15 +1,12 @@
+version: '3.8'
+
 services:
-  chat-turbo:
+  app:
     image: chat-turbo:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "${PORT:-3000}:3000"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
+    env_file:
+      - .env
+    networks:
+      - traefik-public
     environment:
       - NODE_ENV=production
       - HOSTNAME=0.0.0.0
@@ -17,7 +14,7 @@ services:
       - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
       - NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME:-Chat Turbo}
-      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://app.assessoriaturbodigital.com.br}
       - NEXT_PUBLIC_UAZAPI_URL=${NEXT_PUBLIC_UAZAPI_URL}
       - NEXT_PUBLIC_SERVER_ID=${NEXT_PUBLIC_SERVER_ID}
       - NEXT_PUBLIC_SUPORTE_URL=${NEXT_PUBLIC_SUPORTE_URL}
@@ -31,3 +28,36 @@ services:
       - ASAAS_API_URL=${ASAAS_API_URL}
       - ASAAS_WEBHOOK_SECRET=${ASAAS_WEBHOOK_SECRET}
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      labels:
+        - "traefik.enable=true"
+        # Roteamento HTTP (Redirecionamento para HTTPS)
+        - "traefik.http.routers.chat-turbo-http.rule=Host(`app.assessoriaturbodigital.com.br`)"
+        - "traefik.http.routers.chat-turbo-http.entrypoints=web"
+        - "traefik.http.routers.chat-turbo-http.middlewares=chat-turbo-https-redirect"
+        - "traefik.http.middlewares.chat-turbo-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.chat-turbo-https-redirect.redirectscheme.permanent=true"
+
+        # Roteamento HTTPS com Certificado SSL automático
+        - "traefik.http.routers.chat-turbo.rule=Host(`app.assessoriaturbodigital.com.br`)"
+        - "traefik.http.routers.chat-turbo.entrypoints=websecure"
+        - "traefik.http.routers.chat-turbo.tls=true"
+        - "traefik.http.routers.chat-turbo.tls.certresolver=${CERT_RESOLVER:-letsencrypt}"
+
+        # Porta interna do container Next.js
+        - "traefik.http.services.chat-turbo.loadbalancer.server.port=3000"
+
+networks:
+  traefik-public:
+    external: true
+    name: ${TRAEFIK_NETWORK:-traefik-public}

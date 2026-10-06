@@ -1,46 +1,40 @@
-# Guia de Deploy - Chat Turbo IA
+# Guia de Deploy - Chat Turbo IA (Docker Swarm + Traefik)
 
-## Pré-requisitos
-- Servidor com Docker e Docker Compose instalados.
-- Arquivos do projeto no servidor.
+## 1. Como fazer Build e Deploy na VPS
 
-## Deploy via Portainer (Stacks > Repository)
+Na sua VPS, o fluxo é 100% desacoplado e simples:
 
-1. No Portainer, vá em **Stacks** -> **Add stack**.
-2. Selecione o método **Repository**.
-3. Preencha os campos:
-   - **Repository URL**: `https://github.com/rafatek/chat-turbo`
-   - **Repository reference**: `refs/heads/main`
-   - **Compose path**: `docker-compose.yml`
-4. Na seção **Environment variables**:
-   - Clique em **Advanced mode** e cole as variáveis do seu arquivo `.env` (ou use `.env.example` como base).
-5. Clique em **Deploy the stack**.
+```bash
+# 1. Puxar as últimas alterações
+cd ~/chat-turbo
+git pull origin main
 
-## Deploy via Terminal (Docker / Docker Compose)
+# 2. Criar a imagem Docker (compilação limpa, sem depender de .env no build)
+docker build -t chat-turbo:latest .
 
-1. Clone o repositório na sua VPS:
-   ```bash
-   git clone https://github.com/rafatek/chat-turbo.git
-   cd chat-turbo
-   ```
+# 3. Fazer deploy no Docker Swarm
+docker stack deploy -c docker-compose.yml chat-turbo
+```
 
-2. Crie o arquivo `.env`:
-   ```bash
-   cp .env.example .env
-   # Edite o .env com suas credenciais reais
-   nano .env
-   ```
+*(Se você usa o Portainer Swarm, pode simplesmente ir na stack `chat-turbo` e clicar em **Update the stack** com a opção "Re-pull image" ou após o build).*
 
-3. Suba com Docker Compose:
-   ```bash
-   docker compose up -d --build
-   ```
+---
 
-4. **Verificação**
-   - Acesse `http://SEU_IP:3000` ou configure seu proxy reverso (Nginx/Traefik) para apontar para a porta 3000.
-   - Verifique os logs se necessário: `docker logs chat-turbo-app`.
+## 2. Configurações de Rede e Certificados (Traefik)
 
-## Webhook
-O webhook para inserção de leads pela Evolution API está disponível em:
-`https://app.assessoriaturbodigital.com.br/api/webhook/<SEU_TOKEN>`
-(Substitua `<SEU_TOKEN>` pelo token configurado no perfil do usuário no banco de dados).
+O arquivo `docker-compose.yml` já vem configurado com:
+- **Domínio**: `app.assessoriaturbodigital.com.br`
+- **Porta interna**: `3000`
+- **Rede padrão**: `traefik-public` (overlay externa)
+- **Certresolver**: `letsencrypt` (personalizável via `.env` com `CERT_RESOLVER=nome_do_seu_resolver`)
+
+Se a sua rede do Traefik tiver outro nome, basta adicionar no seu `.env`:
+```env
+TRAEFIK_NETWORK=nome_da_sua_rede_traefik
+CERT_RESOLVER=letsencrypt
+```
+
+---
+
+## 3. Variáveis de Ambiente (.env)
+As variáveis de produção são lidas exclusivamente em **runtime** a partir do arquivo `.env` na VPS ou configuradas no Portainer. O frontend recebe as variáveis públicas dinamicamente através do servidor Node.js no carregamento das páginas.
