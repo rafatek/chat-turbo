@@ -15,14 +15,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Injeta variáveis públicas necessárias no momento do build
-ARG NEXT_PUBLIC_SUPABASE_URL
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
-ARG NEXT_PUBLIC_APP_NAME
-ARG NEXT_PUBLIC_APP_URL
-ARG NEXT_PUBLIC_UAZAPI_URL
-ARG NEXT_PUBLIC_SERVER_ID
-ARG NEXT_PUBLIC_SUPORTE_URL
+# Injeta variáveis públicas necessárias no momento do build (com fallbacks para evitar erros de compilação)
+ARG NEXT_PUBLIC_SUPABASE_URL=https://placeholder.supabase.co
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=placeholder-anon-key
+ARG NEXT_PUBLIC_APP_NAME="Chat Turbo"
+ARG NEXT_PUBLIC_APP_URL="http://localhost:3000"
+ARG NEXT_PUBLIC_UAZAPI_URL=""
+ARG NEXT_PUBLIC_SERVER_ID=""
+ARG NEXT_PUBLIC_SUPORTE_URL=""
 
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY

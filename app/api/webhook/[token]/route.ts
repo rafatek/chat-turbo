@@ -1,17 +1,14 @@
+export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { formatBrazilianPhone } from '@/lib/utils/phone'
 import { checkRateLimit } from '@/lib/utils/rate-limit'
 
 // Initializing Supabase Client with Service Role Key to bypass RLS for token lookup
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key'
 
-if (!supabaseServiceKey) {
-  console.error("FATAL: SUPABASE_SERVICE_ROLE_KEY is missing. Webhooks require this key to bypass RLS.")
-}
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey || "")
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

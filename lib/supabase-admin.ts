@@ -7,9 +7,11 @@ import { createClient } from '@supabase/supabase-js'
  * where you explicitly need to bypass RLS (e.g., admin operations).
  */
 export async function createAdminClient() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key'
     return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!, // Key that bypasses RLS
+        url,
+        key,
         {
             auth: {
                 autoRefreshToken: false,
