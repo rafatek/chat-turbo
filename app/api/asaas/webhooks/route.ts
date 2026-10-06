@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export async function POST(req: Request) {
   try {
-    // Validação do token de segurança do webhook do Asaas
-    const webhookSecret = process.env.ASAAS_WEBHOOK_SECRET;
-    const receivedToken = req.headers.get('asaas-access-token');
+    // Validação do token de segurança do webhook do Asaas (higieniza aspas/espaços)
+    const webhookSecret = (process.env.ASAAS_WEBHOOK_SECRET || '').trim().replace(/^["']|["']$/g, '');
+    const receivedToken = (req.headers.get('asaas-access-token') || '').trim();
 
     if (webhookSecret && receivedToken !== webhookSecret) {
       console.warn('[Asaas Webhook] Acesso negado: token inválido ou ausente.');
@@ -20,12 +20,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
     }
 
-    // Usar a service role key porque o webhook vem do Asaas e não tem sessão
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
     // Atualiza a tabela profiles para bloquear ou liberar o usuário
     let profileStatus: string | null = null;
 
@@ -37,7 +31,7 @@ export async function POST(req: Request) {
     }
 
     if (profileStatus && payment.customer) {
-      const { error: profileError } = await supabase
+      const { error: profileError } = await supabaseAdmin
         .from('profiles')
         .update({ subscription_status: profileStatus, updated_at: new Date().toISOString() })
         .eq('asaas_customer_id', payment.customer);

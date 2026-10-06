@@ -25,8 +25,9 @@ export async function getDashboardMetrics(period: 'current_month' | 'last_month'
     await verifyAdmin()
     const supabaseAdmin = await createAdminClient()
     
-    const { ASAAS_API_URL, ASAAS_API_KEY } = await import('@/lib/asaas')
-    const headers = { 'access_token': ASAAS_API_KEY, 'Content-Type': 'application/json' }
+    const { getAsaasApiUrl, getAsaasHeaders } = await import('@/lib/asaas')
+    const ASAAS_API_URL = getAsaasApiUrl()
+    const headers = getAsaasHeaders()
 
     // Determinar as datas baseadas no período escolhido
     const now = new Date()

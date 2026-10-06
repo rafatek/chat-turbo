@@ -625,8 +625,9 @@ export async function linkAsaasAccount(userId: string) {
         const { data: profile } = await supabaseAdmin.from('profiles').select('email, cpf_cnpj, full_name').eq('id', userId).single()
         if (!profile) return { success: false, error: 'Usuário não encontrado.' }
 
-        const { ASAAS_API_URL, ASAAS_API_KEY } = await import('@/lib/asaas')
-        const headers = { 'access_token': ASAAS_API_KEY, 'Content-Type': 'application/json' }
+        const { getAsaasApiUrl, getAsaasHeaders } = await import('@/lib/asaas')
+        const ASAAS_API_URL = getAsaasApiUrl()
+        const headers = getAsaasHeaders()
 
         // Try searching by email first
         let customer = null

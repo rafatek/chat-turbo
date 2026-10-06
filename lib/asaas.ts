@@ -23,13 +23,35 @@ export interface AsaasSubscriptionData {
   description?: string;
 }
 
-export const ASAAS_API_URL = (process.env.ASAAS_API_URL || 'https://sandbox.asaas.com/api/v3').split(' ')[0];
-export const ASAAS_API_KEY = process.env.ASAAS_API_KEY || '';
+// Sanitização robusta para runtime / Docker / .env
+export function getAsaasApiKey(): string {
+  let key = process.env.ASAAS_API_KEY || '';
+  key = key.trim();
+  // Remove aspas que o Docker ou .env possam ter mantido
+  key = key.replace(/^["']|["']$/g, '');
+  // Se a chave foi escapada com \$ no .env, remove a barra invertida
+  if (key.startsWith('\\$')) {
+    key = key.slice(1);
+  }
+  return key;
+}
 
-const headers = {
-  'Content-Type': 'application/json',
-  access_token: ASAAS_API_KEY,
-};
+export function getAsaasApiUrl(): string {
+  let url = process.env.ASAAS_API_URL || 'https://api.asaas.com/v3';
+  url = url.trim().replace(/^["']|["']$/g, '').split(' ')[0].replace(/\/$/, '');
+  return url;
+}
+
+export function getAsaasHeaders(): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    access_token: getAsaasApiKey(),
+  };
+}
+
+// Getters retrocompatíveis para imports diretos de ASAAS_API_URL e ASAAS_API_KEY
+export const ASAAS_API_URL = getAsaasApiUrl();
+export const ASAAS_API_KEY = getAsaasApiKey();
 
 async function handleAsaasError(response: Response, defaultMessage: string) {
   let errorData;
@@ -43,13 +65,14 @@ async function handleAsaasError(response: Response, defaultMessage: string) {
   } catch (e) {
     errorData = "Não foi possível ler a resposta do servidor.";
   }
+  console.error(`[Asaas Error] ${defaultMessage} (Status: ${response.status}) URL: ${response.url}`, errorData);
   throw new Error(`${defaultMessage}: ${typeof errorData === 'string' ? errorData : JSON.stringify(errorData)} (Status: ${response.status})`);
 }
 
 export async function createAsaasCustomer(data: AsaasCustomerData) {
-  const response = await fetch(`${ASAAS_API_URL}/customers`, {
+  const response = await fetch(`${getAsaasApiUrl()}/customers`, {
     method: 'POST',
-    headers,
+    headers: getAsaasHeaders(),
     body: JSON.stringify(data),
   });
 
@@ -61,9 +84,9 @@ export async function createAsaasCustomer(data: AsaasCustomerData) {
 }
 
 export async function createAsaasPayment(data: AsaasPaymentData) {
-  const response = await fetch(`${ASAAS_API_URL}/payments`, {
+  const response = await fetch(`${getAsaasApiUrl()}/payments`, {
     method: 'POST',
-    headers,
+    headers: getAsaasHeaders(),
     body: JSON.stringify(data),
   });
 
@@ -74,10 +97,10 @@ export async function createAsaasPayment(data: AsaasPaymentData) {
   return response.json();
 }
 
-export async function getPixQrCode(paymentId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/payments/${paymentId}/pixQrCode`, {
+export async function getAsaasPixQrCode(paymentId: string) {
+  const response = await fetch(`${getAsaasApiUrl()}/payments/${paymentId}/pixQrCode`, {
     method: 'GET',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -88,9 +111,9 @@ export async function getPixQrCode(paymentId: string) {
 }
 
 export async function createAsaasSubscription(data: AsaasSubscriptionData) {
-  const response = await fetch(`${ASAAS_API_URL}/subscriptions`, {
+  const response = await fetch(`${getAsaasApiUrl()}/subscriptions`, {
     method: 'POST',
-    headers,
+    headers: getAsaasHeaders(),
     body: JSON.stringify(data),
   });
 
@@ -102,9 +125,9 @@ export async function createAsaasSubscription(data: AsaasSubscriptionData) {
 }
 
 export async function updateAsaasSubscription(subscriptionId: string, data: Partial<AsaasSubscriptionData>) {
-  const response = await fetch(`${ASAAS_API_URL}/subscriptions/${subscriptionId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/subscriptions/${subscriptionId}`, {
     method: 'POST',
-    headers,
+    headers: getAsaasHeaders(),
     body: JSON.stringify(data),
   });
 
@@ -116,9 +139,9 @@ export async function updateAsaasSubscription(subscriptionId: string, data: Part
 }
 
 export async function listAsaasPayments(customerId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/payments?customer=${customerId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/payments?customer=${customerId}`, {
     method: 'GET',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -129,9 +152,9 @@ export async function listAsaasPayments(customerId: string) {
 }
 
 export async function getAsaasSubscription(subscriptionId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/subscriptions/${subscriptionId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/subscriptions/${subscriptionId}`, {
     method: 'GET',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -143,9 +166,9 @@ export async function getAsaasSubscription(subscriptionId: string) {
 }
 
 export async function deleteAsaasSubscription(subscriptionId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/subscriptions/${subscriptionId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/subscriptions/${subscriptionId}`, {
     method: 'DELETE',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -156,9 +179,9 @@ export async function deleteAsaasSubscription(subscriptionId: string) {
 }
 
 export async function deleteAsaasPayment(paymentId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/payments/${paymentId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/payments/${paymentId}`, {
     method: 'DELETE',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -169,9 +192,9 @@ export async function deleteAsaasPayment(paymentId: string) {
 }
 
 export async function deleteAsaasCustomer(customerId: string) {
-  const response = await fetch(`${ASAAS_API_URL}/customers/${customerId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/customers/${customerId}`, {
     method: 'DELETE',
-    headers,
+    headers: getAsaasHeaders(),
   });
 
   if (!response.ok) {
@@ -182,9 +205,9 @@ export async function deleteAsaasCustomer(customerId: string) {
 }
 
 export async function updateAsaasPayment(paymentId: string, data: any) {
-  const response = await fetch(`${ASAAS_API_URL}/payments/${paymentId}`, {
+  const response = await fetch(`${getAsaasApiUrl()}/payments/${paymentId}`, {
     method: 'POST',
-    headers,
+    headers: getAsaasHeaders(),
     body: JSON.stringify(data),
   });
 
