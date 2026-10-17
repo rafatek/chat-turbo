@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 import { formatBrazilianPhone } from '@/lib/utils/phone'
 import { checkRateLimit } from '@/lib/utils/rate-limit'
+import { syncLeadAvatar } from '@/lib/utils/avatar'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -301,7 +302,7 @@ async function handleIncomingMessage(token: string, body: any) {
     // Lookup existing lead by whatsapp number (try with and without country code)
     const { data: existingLead } = await supabase
       .from('leads')
-      .select('id, whatsapp, conversation_id, full_name')
+      .select('id, whatsapp, conversation_id, full_name, profile_pic')
       .eq('user_id', userId)
       .or(`whatsapp.eq.${senderPhone},whatsapp.eq.${normalizedPhone}`)
       .maybeSingle()
@@ -375,6 +376,11 @@ async function handleIncomingMessage(token: string, body: any) {
         .from('conversations')
         .update({ lead_id: leadId })
         .eq('id', conversation.id)
+    }
+
+    // 5.5 Sincronizar foto de perfil na UazAPI se ainda não tiver
+    if (leadId && (!existingLead || !existingLead.profile_pic)) {
+      syncLeadAvatar({ userId, phone: senderPhone, leadId }).catch(() => {})
     }
 
     // 6. Check for duplicate before saving (Deduplication)

@@ -1733,6 +1733,20 @@ export default function AtendimentoPage() {
         if (leadIdToUse) {
           await supabase.from("conversations").update({ lead_id: leadIdToUse }).eq('id', conv.id)
           conv.lead_id = leadIdToUse
+
+          // Sincronizar foto de perfil em segundo plano via UazAPI
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.access_token) {
+              fetch('/api/contacts/sync-avatar', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${session.access_token}`,
+                },
+                body: JSON.stringify({ phone, leadId: leadIdToUse })
+              }).catch(() => {})
+            }
+          })
         }
       } catch (leadErr) {
         console.warn("Aviso: não foi possível sincronizar lead no CRM:", leadErr)

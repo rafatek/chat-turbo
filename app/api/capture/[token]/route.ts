@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import { type NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { checkRateLimit } from '@/lib/utils/rate-limit'
+import { syncLeadAvatar } from '@/lib/utils/avatar'
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -194,6 +195,15 @@ export async function POST(
             await supabaseAdmin.from('leads').update({
                 conversation_id: conversation.id
             }).eq('id', lead.id)
+        }
+
+        // 6.5 Sincronizar foto de perfil do Lead via UazAPI se ainda não tiver
+        if (!lead.profile_pic) {
+            await syncLeadAvatar({
+                userId: webhook.user_id,
+                phone,
+                leadId: lead.id
+            })
         }
 
         // 7. Inject Variables na Mensagem Template
