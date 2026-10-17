@@ -79,7 +79,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Proteção de rotas privadas
-    const publicRoutes = ['/login', '/cadastro', '/forgot-password', '/update-password', '/auth', '/favicon.ico', '/api/webhook', '/api/asaas', '/api/capture', '/api/inbox/process-media']
+    const publicRoutes = ['/login', '/cadastro', '/forgot-password', '/update-password', '/auth', '/favicon.ico', '/api/webhook', '/api/asaas', '/api/capture', '/api/inbox/process-media', '/api/inbox/avatar']
     if (!user && !publicRoutes.some((route) => request.nextUrl.pathname.startsWith(route))) {
         return NextResponse.redirect(new URL('/login', request.url))
     }

@@ -104,10 +104,34 @@ function getAvatarColor(phone: string) {
   return AVATAR_COLORS[sum % AVATAR_COLORS.length]
 }
 
+const getAvatarSrc = (url?: string) => {
+  if (!url) return ''
+  if (url.includes('whatsapp.net') || url.includes('fbcdn.net')) {
+    return `/api/inbox/avatar?url=${encodeURIComponent(url)}`
+  }
+  return url
+}
+
 const ContactAvatar = React.memo(function ContactAvatar({ name, phone, size = "md", picUrl }: { name: string; phone: string; size?: "sm" | "md" | "lg", picUrl?: string }) {
   const sizeClass = { sm: "h-8 w-8 text-xs", md: "h-10 w-10 text-sm", lg: "h-12 w-12 text-base" }[size]
-  if (picUrl) {
-    return <img src={picUrl} alt={name} className={cn("rounded-full object-cover flex-shrink-0", sizeClass)} />
+  const [imgError, setImgError] = useState(false)
+
+  useEffect(() => {
+    setImgError(false)
+  }, [picUrl])
+
+  const src = getAvatarSrc(picUrl)
+
+  if (src && !imgError) {
+    return (
+      <img
+        src={src}
+        alt={name}
+        referrerPolicy="no-referrer"
+        onError={() => setImgError(true)}
+        className={cn("rounded-full object-cover flex-shrink-0", sizeClass)}
+      />
+    )
   }
   return (
     <div className={cn("rounded-full flex items-center justify-center font-bold text-white flex-shrink-0", sizeClass, getAvatarColor(phone))}>
@@ -792,6 +816,7 @@ export default function AtendimentoPage() {
         leads!leads_conversation_id_fkey (
           id,
           lead_pausado,
+          profile_pic,
           lead_labels (
             labels (
               id,
@@ -813,6 +838,7 @@ export default function AtendimentoPage() {
             ...conv, 
             lead_id: firstLead?.id || conv.lead_id, 
             lead_pausado: firstLead?.lead_pausado || false,
+            profile_pic_url: firstLead?.profile_pic || conv.profile_pic_url,
             labels: flatLabels 
         }
       })
@@ -1121,6 +1147,7 @@ export default function AtendimentoPage() {
                             ...updatedConv,
                             lead_id: c.lead_id || updatedConv.lead_id,
                             lead_pausado: c.lead_pausado,
+                            profile_pic_url: c.profile_pic_url || updatedConv.profile_pic_url,
                             labels: c.labels
                         }
                     }
@@ -1135,6 +1162,7 @@ export default function AtendimentoPage() {
                         ...updatedConv,
                         lead_id: prev.lead_id || updatedConv.lead_id,
                         lead_pausado: prev.lead_pausado,
+                        profile_pic_url: prev.profile_pic_url || updatedConv.profile_pic_url,
                         labels: prev.labels
                     }
                 }
