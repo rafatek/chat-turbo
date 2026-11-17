@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge" // new
 import { QrCode, CheckCircle2, XCircle, RefreshCw, Smartphone, Loader2, Trash2, Webhook, Copy, RefreshCcw } from "lucide-react" // updated icons
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
-import { initWhatsappInstance, deleteWhatsappInstance } from "@/lib/actions/whatsapp"
+import { initWhatsappInstance, deleteWhatsappInstance, checkWhatsappInstanceStatus } from "@/lib/actions/whatsapp"
 
 // Env vars
 const UAZAPI_URL = process.env.NEXT_PUBLIC_UAZAPI_URL
@@ -45,13 +45,12 @@ export default function ConexoesPage() {
         if (connection && !error) {
           setInstanceName(connection.instance_name)
           setInstanceToken(connection.instance_key)
-          if (connection.status === "connected") {
-            setIsConnected(true)
-            setConnectionStatus("open")
-            // Busca o número de telefone conectado
-            fetchPhoneNumber(connection.instance_key)
+          // SEMPRE valida o status real na Uazapi no segundo 0
+          if (connection.instance_key) {
+            await checkUazapiState(connection.instance_name, connection.instance_key)
           } else {
-            checkUazapiState(connection.instance_name, connection.instance_key)
+            setIsConnected(false)
+            setConnectionStatus("disconnected")
           }
         }
       } catch (err) {
@@ -149,37 +148,25 @@ export default function ConexoesPage() {
   // Helper to check state directly from UazAPI
   const checkUazapiState = async (instName: string, token: string) => {
     try {
-      const res = await fetch(`${UAZAPI_URL}/instance/status`, {
-        method: "GET",
-        headers: { "token": token }
-      })
-      const data = await res.json()
+      const check = await checkWhatsappInstanceStatus(token)
 
-      const isConnectedApi = data?.connected === true ||
-                             data?.status?.connected === true ||
-                             data?.instance?.status === "connected" ||
-                             data?.state === "open" ||
-                             data?.state === "connected" ||
-                             data?.instance?.state === "open"
-
-      const stateString = data?.state || data?.instance?.state || data?.instance?.status || "close"
-
-      // Extrair número de telefone conectado
-      const phone = data?.phone || data?.instance?.phone || data?.wid?.user || data?.me?.id?.replace('@s.whatsapp.net', '') || null
-      if (phone) setPhoneNumber(phone)
-
-      if (isConnectedApi) {
+      if (check.connected) {
         setIsConnected(true)
         setConnectionStatus("open")
+        if (check.phone) setPhoneNumber(check.phone)
         await updateSupabaseStatus(instName, "connected")
-        fetchPhoneNumber(token)
       } else {
         setIsConnected(false)
-        setConnectionStatus(stateString)
+        setConnectionStatus(check.state || "disconnected")
+        setPhoneNumber(null)
+        await updateSupabaseStatus(instName, "disconnected")
         fetchQrCode(instName, token)
       }
     } catch (e) {
       console.error("Error checking UazAPI state:", e)
+      setIsConnected(false)
+      setConnectionStatus("disconnected")
+      await updateSupabaseStatus(instName, "disconnected")
     }
   }
 
@@ -406,56 +393,27 @@ export default function ConexoesPage() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${UAZAPI_URL}/instance/status`, {
-          method: "GET",
-          headers: { "token": instanceToken }
-        })
+        const check = await checkWhatsappInstanceStatus(instanceToken)
 
-        if (res.status === 404 || res.status === 410 || res.status === 400 || res.status === 401) {
-          console.log(`Erro da API na checagem de status (${res.status}). Marcando como desconectado temporariamente...`)
-          if (isConnected) {
-            setIsConnected(false)
-            setConnectionStatus("disconnected")
-            setPhoneNumber(null)
-            await updateSupabaseStatus(instanceName, "disconnected")
-            toast.warning("Instabilidade na conexão detectada. Tentando recuperar...")
-          }
-          return
-        }
-
-        const data = await res.json()
-        
-        const isConnectedApi = data?.connected === true ||
-                               data?.status?.connected === true ||
-                               data?.instance?.status === "connected" ||
-                               data?.state === "open" ||
-                               data?.state === "connected" ||
-                               data?.instance?.state === "open"
-
-        const stateString = data?.state || data?.instance?.state || data?.instance?.status || "disconnected"
-
-        // Extrair número de telefone conectado
-        const phone = data?.phone || data?.instance?.phone || data?.wid?.user || data?.me?.id?.replace('@s.whatsapp.net', '') || null
-        if (phone) setPhoneNumber(phone)
-
-        if (isConnectedApi) {
+        if (check.connected) {
           if (!isConnected) {
             setIsConnected(true)
             setConnectionStatus('open')
             setQrCodeBase64(null)
+            if (check.phone) setPhoneNumber(check.phone)
             await updateSupabaseStatus(instanceName, "connected")
-            fetchPhoneNumber(instanceToken)
             toast.success("WhatsApp Conectado!")
+          } else if (check.phone && !phoneNumber) {
+            setPhoneNumber(check.phone)
           }
         } else {
           if (isConnected) {
-            console.log("Detectada desconexão. Estado:", stateString)
             setIsConnected(false)
-            setConnectionStatus(stateString)
+            setConnectionStatus(check.state || "disconnected")
             setPhoneNumber(null)
             setQrCodeBase64(null)
             await updateSupabaseStatus(instanceName, "disconnected")
-            toast.warning("Conexão perdida. Reconecte.")
+            toast.warning("Conexão com WhatsApp perdida. Gere um novo QR Code.")
           }
         }
       } catch (e) {
@@ -464,7 +422,7 @@ export default function ConexoesPage() {
     }, 6000)
 
     return () => clearInterval(interval)
-  }, [instanceName, instanceToken, isConnected])
+  }, [instanceName, instanceToken, isConnected, phoneNumber])
 
   const handleLocalDisconnect = async () => {
     if (!instanceName) return
@@ -640,10 +598,26 @@ export default function ConexoesPage() {
                   </div>
                 </div>
 
-                <Button variant="destructive" className="w-full gap-2 border-red-900/50 hover:bg-red-900/20 hover:text-red-400" onClick={handleDisconnect}>
-                  <Trash2 className="h-4 w-4" />
-                  Desconectar WhatsApp
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="flex-1 gap-2 border-border hover:bg-muted"
+                    onClick={async () => {
+                      if (!instanceName || !instanceToken) return
+                      toast.info("Verificando conexão na Uazapi...")
+                      await checkUazapiState(instanceName, instanceToken)
+                      toast.success("Status verificado com sucesso!")
+                    }}
+                  >
+                    <RefreshCw className="h-4 w-4" />
+                    Verificar Conexão
+                  </Button>
+                  <Button variant="destructive" className="flex-1 gap-2 border-red-900/50 hover:bg-red-900/20 hover:text-red-400" onClick={handleDisconnect}>
+                    <Trash2 className="h-4 w-4" />
+                    Desconectar WhatsApp
+                  </Button>
+                </div>
               </div>
 
             )}

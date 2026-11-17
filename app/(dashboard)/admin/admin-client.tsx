@@ -8,7 +8,7 @@ import { ptBR } from "date-fns/locale"
 import { Shield, ShieldAlert, MoreHorizontal, User, Check, X, ShieldCheck, Mail, Power, Edit, Trash2, Plus, QrCode, RefreshCw, Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { updateSubscriptionStatus, toggleAdminRole, updateProfileData, deleteAdminUser, createAdminUser, createAsaasInvoice, fetchUserSubscription, postponeInvoice, fetchInvoiceDueDate, linkAsaasAccount } from "@/lib/actions/admin"
+import { updateSubscriptionStatus, toggleAdminRole, updateProfileData, deleteAdminUser, createAdminUser, createAsaasInvoice, fetchUserSubscription, postponeInvoice, fetchInvoiceDueDate, linkAsaasAccount, adminSyncWhatsappStatus } from "@/lib/actions/admin"
 import { AdminDashboard } from "./admin-dashboard"
 import { Smartphone, Clock, Link as LinkIcon, LayoutDashboard, List } from "lucide-react"
 
@@ -111,6 +111,7 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
 
   // Create user state
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [isSyncingWa, setIsSyncingWa] = useState(false)
   const [createData, setCreateData] = useState({
     fullName: "",
     email: "",
@@ -419,6 +420,23 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
     })
   }
 
+  const handleSyncWhatsapp = async () => {
+    setIsSyncingWa(true)
+    try {
+      const res = await adminSyncWhatsappStatus() as any
+      if (res.success) {
+        toast.success(`Sincronização concluída! ${res.connectedCount ?? 0} conectadas mantidas. ${res.deletedCount ?? 0} instâncias desconectadas foram excluídas da Uazapi liberando vagas no plano.`, { duration: 6000 })
+        router.refresh()
+      } else {
+        toast.error("Erro na sincronização: " + res.error)
+      }
+    } catch (e: any) {
+      toast.error("Erro ao sincronizar conexões: " + (e.message || "Falha"))
+    } finally {
+      setIsSyncingWa(false)
+    }
+  }
+
   const filteredProfiles = profiles.filter(p => 
     p.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
     p.email?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -466,6 +484,17 @@ export function AdminClient({ initialProfiles }: { initialProfiles: Profile[] })
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+
+            <Button 
+              type="button"
+              variant="outline"
+              onClick={handleSyncWhatsapp} 
+              disabled={isSyncingWa}
+              className="w-full sm:w-auto rounded-full border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 transition-all duration-300"
+            >
+              <RefreshCw className={cn("mr-2 h-4 w-4", isSyncingWa && "animate-spin text-[#8E3AAA]")} />
+              {isSyncingWa ? "Sincronizando & Limpando..." : "Sincronizar & Limpar WhatsApp"}
+            </Button>
 
             <Button onClick={() => setIsCreateDialogOpen(true)} className="w-full sm:w-auto rounded-full bg-[#8E3AAA] hover:bg-[#8E3AAA]/80 text-white font-bold transition-all duration-300 shadow-[0_0_15px_rgba(0,163,255,0.4)] hover:shadow-[0_0_25px_rgba(0,163,255,0.6)]">
               <Plus className="mr-2 h-4 w-4" /> Novo Usuário

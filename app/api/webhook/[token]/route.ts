@@ -168,7 +168,8 @@ function isGenericName(name: string, phone?: string): boolean {
   if (/^\d+$/.test(n)) return true
   if (n.includes('lead whatsapp')) return true
   if (n.includes('lead externo')) return true
-  if (n === 'sem nome') return true
+  if (n.includes('lead importado')) return true
+  if (n === 'sem nome' || n === 'lead desconhecido' || n === 'sem razão social') return true
   return false
 }
 
@@ -410,6 +411,48 @@ async function handleIncomingMessage(token: string, body: any) {
     })
 
     console.log(`Message from ${senderPhone} saved → conversation ${conversation.id} → lead ${leadId}`)
+
+    // 8. Remarketing V2 Hook: Se o cliente respondeu (!fromMe)
+    if (!fromMe && leadId) {
+      try {
+        const { data: rmkConfig } = await supabase
+          .from('remarketing_configs')
+          .select('is_active, agent_mode')
+          .eq('user_id', userId)
+          .maybeSingle()
+
+        if (rmkConfig?.is_active) {
+          const isProactive = rmkConfig.agent_mode === 'proactive'
+          if (!isProactive) {
+            // Modo Passivo: Autocancelamento imediato
+            console.log(`[RMK Webhook] Modo Passivo: Lead ${leadId} respondeu. Cancelando fila e desativando RMK.`)
+            await supabase
+              .from('remarketing_queue')
+              .delete()
+              .eq('lead_id', leadId)
+              .eq('user_id', userId)
+
+            await supabase
+              .from('remarketing_leads')
+              .upsert(
+                {
+                  lead_id: leadId,
+                  user_id: userId,
+                  rmk_enabled: false,
+                  remarketing_status: 'converted',
+                  updated_at: new Date().toISOString(),
+                },
+                { onConflict: 'lead_id' }
+              )
+          } else {
+            // Modo Proativo: Mantém agendamentos futuros para esteira contínua
+            console.log(`[RMK Webhook] Modo Proativo: Lead ${leadId} respondeu. Mantendo agendamentos na fila para follow-up.`)
+          }
+        }
+      } catch (rmkErr) {
+        console.error('[RMK Webhook] Erro ao processar remarketing no webhook:', rmkErr)
+      }
+    }
 
   } catch (err) {
     console.error("Error handling incoming message:", err)

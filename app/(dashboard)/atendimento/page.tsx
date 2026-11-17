@@ -35,6 +35,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { toggleLeadRemarketingAction, scheduleLeadRemarketingQueue } from "@/lib/actions/remarketing"
 
 // =============================================
 // Types
@@ -1246,12 +1247,13 @@ export default function AtendimentoPage() {
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
   useEffect(() => { if (selectedConv) setTimeout(() => chatInputRef.current?.focus(), 100) }, [selectedConv])
 
-  // ---- RMK Functions ----
+  // ---- RMK Functions (V2: Agente Passivo vs Proativo + Fila) ----
   useEffect(() => {
     if (!selectedConv?.lead_id) {
-        setRmkEnabled(true)
+        setRmkEnabled(false)
         return
     }
+    let isCancelled = false
     const fetchRmkState = async () => {
         setIsRmkLoading(true)
         try {
@@ -1260,18 +1262,45 @@ export default function AtendimentoPage() {
                 .select('rmk_enabled')
                 .eq('lead_id', selectedConv.lead_id)
                 .maybeSingle()
+            
+            if (isCancelled) return
+
             if (!error && data) {
                 setRmkEnabled(data.rmk_enabled !== false)
             } else {
-                setRmkEnabled(true)
+                // Lead ainda não possui registro na tabela de remarketing
+                const { data: { session } } = await supabase.auth.getSession()
+                if (session?.user?.id) {
+                    const { data: cfg } = await supabase
+                        .from('remarketing_configs')
+                        .select('is_active, agent_mode')
+                        .eq('user_id', session.user.id)
+                        .maybeSingle()
+
+                    if (cfg?.is_active && cfg?.agent_mode === 'proactive') {
+                        // Modo Proativo: ativa e agenda a fila em background
+                        setRmkEnabled(true)
+                        scheduleLeadRemarketingQueue(selectedConv.lead_id, session.user.id).catch((err) =>
+                            console.error("Erro ao agendar fila proativa em background:", err)
+                        )
+                    } else {
+                        // Modo Passivo: permanece desligado até clique manual do atendente
+                        setRmkEnabled(false)
+                    }
+                } else {
+                    setRmkEnabled(false)
+                }
             }
         } catch (err) {
             console.error("Erro ao buscar RMK:", err)
         } finally {
-            setIsRmkLoading(false)
+            if (!isCancelled) setIsRmkLoading(false)
         }
     }
     fetchRmkState()
+    return () => {
+        isCancelled = true
+    }
   }, [selectedConv?.lead_id])
 
   const handleToggleRmk = async () => {
@@ -1279,26 +1308,14 @@ export default function AtendimentoPage() {
     setIsLoadingLead(false)
     setIsRmkLoading(true)
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session?.user?.id) throw new Error("Não autenticado")
-      
       const newEnabled = !rmkEnabled
-      const rmkPayload: any = {
-        lead_id: selectedConv.lead_id,
-        user_id: session.user.id,
-        rmk_enabled: newEnabled,
+      const res = await toggleLeadRemarketingAction(selectedConv.lead_id, newEnabled)
+      if (res.success) {
+        setRmkEnabled(newEnabled)
+        toast.success(newEnabled ? "RMK ativado e agendado para o lead" : "RMK desativado e fila cancelada")
+      } else {
+        toast.error("Erro ao alterar RMK: " + (res.error || "Falha na operação"))
       }
-      if (newEnabled) {
-        rmkPayload.remarketing_status = "none"
-        rmkPayload.remarketing_attempts = 0
-        rmkPayload.last_remarketing_at = new Date().toISOString()
-      }
-      
-      const { error } = await supabase.from('remarketing_leads').upsert(rmkPayload, { onConflict: "lead_id" })
-      if (error) throw error
-      
-      setRmkEnabled(newEnabled)
-      toast.success(newEnabled ? "RMK ativado para o lead" : "RMK desativado para o lead")
     } catch (err: any) {
       console.error(err)
       toast.error("Erro ao alterar RMK")

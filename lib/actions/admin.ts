@@ -686,3 +686,15 @@ export async function linkAsaasAccount(userId: string) {
         return { success: false, error: err.message }
     }
 }
+
+export async function adminSyncWhatsappStatus() {
+    try {
+        await verifyAdmin()
+        const { syncAndCleanupWhatsappInstances } = await import("@/lib/actions/whatsapp")
+        const result = await syncAndCleanupWhatsappInstances()
+        revalidatePath("/admin")
+        return result
+    } catch (err: any) {
+        return { success: false, error: err.message }
+    }
+}
